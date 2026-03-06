@@ -46,7 +46,7 @@ export default function About() {
             </div>
 
             {/* BACK SIDE */}
-            <div className="absolute inset-0 backface-hidden rotate-y-180 bg-slate-900 border-2 border-blue-500 rounded-2xl flex flex-col justify-center p-8 shadow-2xl">
+            <div className="absolute inset-0 backface-hidden rotate-y-180 bg-[#030712]/80 backdrop-blur-xl border-2 border-blue-500/50 rounded-2xl flex flex-col justify-center p-8 shadow-[0_0_30px_rgba(59,130,246,0.2)]">
               <h3 className="text-2xl font-bold text-blue-400 mb-4">Beyond the Code</h3>
               
               {/* Using a horizontal flex layout on the back to utilize the landscape space */}
@@ -93,7 +93,7 @@ export default function About() {
 
           <div className="grid grid-cols-2 gap-4">
             {stats.map((stat, index) => (
-              <div key={index} className="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+              <div key={index} className="bg-white/5 backdrop-blur-md border border-white/10 p-5 rounded-xl hover:bg-white/10 transition-all duration-300 shadow-xl">
                 <div className="text-2xl font-bold text-blue-400">{stat.number}</div>
                 <div className="text-gray-500 text-[10px] uppercase tracking-tighter">{stat.label}</div>
               </div>

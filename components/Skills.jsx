@@ -129,6 +129,7 @@ export default function Skills() {
 
           <p style={skillStyle}><FaGitAlt style={iconStyle}/> Git</p>
           <p style={skillStyle}><FaGithub style={iconStyle}/> GitHub</p>
+          <p style={skillStyle}><FaGithub style={iconStyle}/> Salesforce CRM</p>
         </div>
 
       </div>
