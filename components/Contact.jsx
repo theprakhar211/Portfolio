@@ -34,7 +34,7 @@ export default function Contact() {
           </a>
 
           <a
-            href="https://github.com"
+            href="https://github.com/theprakhar211"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 text-gray-300 hover:text-blue-400 transition-colors"
