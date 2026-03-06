@@ -28,10 +28,10 @@ export default function About() {
         >
 
           <Image
-            src="/profile.png"
+            src="/profile1.png"
             alt="Profile"
-            width={320}
-            height={320}
+            width={900}
+            height={900}
             className="rounded-xl border border-gray-700 shadow-lg"
           />
 
