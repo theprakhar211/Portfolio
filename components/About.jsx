@@ -60,7 +60,7 @@ export default function About() {
                 <div className="text-center p-2 border-x border-gray-800">
                   <FaMusic className="text-blue-400 mx-auto mb-2 text-xl" />
                   <h4 className="text-white text-sm font-semibold">Music</h4>
-                  <p className="text-gray-500 text-[10px] mt-1">Lo-fi Production</p>
+                  <p className="text-gray-500 text-[10px] mt-1">Soundtracks & Discovery</p>
                 </div>
 
                 <div className="text-center p-2">
@@ -71,7 +71,7 @@ export default function About() {
               </div>
 
               <div className="mt-6 text-center italic text-gray-400 text-sm border-t border-gray-800 pt-4">
-                "Finding the intersection of art and artificial intelligence."
+                "Building with the precision of a compiler; thinking with the freedom of a poet."
               </div>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import BackgroundWrapper from "@/components/BackgroundWrapper";
 
 export default function RootLayout({ children }) {
   return (
@@ -8,7 +9,9 @@ export default function RootLayout({ children }) {
 
         <Navbar />
 
-        {children}
+        <BackgroundWrapper>
+          <main>{children}</main>
+        </BackgroundWrapper>
 
       </body>
     </html>
