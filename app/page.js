@@ -7,6 +7,7 @@ import About from "@/components/About";
 import TechStack from "@/components/TechStack";
 import ScrollProgress from "@/components/ScrollProgress";
 import SectionDivider from "@/components/SectionDivider";
+import Hobbies from "@/components/Hobbies";
 
 export default function Home() {
   return (
@@ -22,6 +23,8 @@ export default function Home() {
       <Projects />
       <SectionDivider />
       <Skills />
+      <SectionDivider />
+      <Hobbies />
       <SectionDivider />
       <Contact />
       <Footer />

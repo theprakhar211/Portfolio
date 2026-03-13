@@ -84,7 +84,7 @@ export default function About() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-5xl font-bold mb-6 text-white">About Me</h2>
+          <h2 className="text-5xl font-bold mb-6 text-white">About <span className="text-blue-500">Me</span></h2>
           <p className="text-gray-400 mb-6 text-lg">
             I'm a third-year Computer Science student specializing in AI. 
             I build software that bridges the gap between intelligence and 

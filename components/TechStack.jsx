@@ -29,7 +29,7 @@ export default function TechStack() {
     <section id="tech" className="py-24 px-10">
 
       <h2 className="text-4xl font-bold text-center mb-16 text-white">
-        Technology Stack
+        Technology <span className="text-blue-500">Stack</span>
       </h2>
 
       <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10">

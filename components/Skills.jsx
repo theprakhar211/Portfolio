@@ -69,7 +69,7 @@ export default function Skills() {
           marginBottom: "50px"
         }}
       >
-        Technical Skills
+        Technical <span className="text-blue-500">Skills</span>
       </h2>
 
       <div
