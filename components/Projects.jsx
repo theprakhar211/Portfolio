@@ -26,7 +26,7 @@ export default function Projects() {
       tech: ["Next.js", "Tailwind", "Framer"],
       github: "https://github.com/theprakhar211",
       demo: "#",
-      image: "/projects/portfolio.png",
+      image: "/projects/portfolio.webp",
     }
   ];
 
