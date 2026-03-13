@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { FaMusic, FaBookOpen, FaPenNib, FaCode, FaMicrochip } from "react-icons/fa";
+import { FaMusic, FaBookOpen, FaPenNib, FaCode, FaMicrochip, FaExternalLinkAlt } from "react-icons/fa";
 
 export default function About() {
   const stats = [
@@ -80,27 +80,42 @@ export default function About() {
           </div>
 
           {/* STATS GRID */}
-          <div className="grid grid-cols-2 gap-4">
-            {stats.map((stat, index) => (
-              <motion.div 
-                key={index} 
-                whileHover={{ scale: 1.02 }}
-                className="group p-5 bg-white/[0.03] border border-white/10 rounded-2xl hover:border-blue-500/50 transition-all duration-500"
-              >
-                <div className="flex justify-between items-start mb-2">
-                  <div className="text-2xl font-black text-white group-hover:text-blue-400 transition-colors">
-                    {stat.number}
-                  </div>
-                  <div className="text-blue-500/30 group-hover:text-blue-500 transition-colors">
-                    {stat.icon}
-                  </div>
-                </div>
-                <div className="text-gray-500 text-[9px] font-black uppercase tracking-widest leading-none">
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          {/* STATS & RESUME GRID */}
+<div className="grid grid-cols-2 gap-4">
+  {stats.map((stat, index) => (
+    <div 
+      key={index} 
+      className="p-5 bg-white/[0.03] border border-white/10 rounded-2xl hover:border-blue-500/30 transition-all duration-500"
+    >
+      <div className="text-2xl font-black text-white">{stat.number}</div>
+      <div className="text-gray-500 text-[9px] font-black uppercase tracking-widest leading-none mt-1">
+        {stat.label}
+      </div>
+    </div>
+  ))}
+
+  {/* THE RESUME CARD */}
+  <motion.a 
+    href="/prakhar-resume.pdf" // Ensure your PDF is in the /public folder
+    target="_blank"
+    whileHover={{ scale: 1.02 }}
+    whileTap={{ scale: 0.98 }}
+    className="col-span-2 group p-5 bg-blue-600/10 border border-blue-500/50 rounded-2xl flex items-center justify-between transition-all duration-500 cursor-pointer"
+  >
+    <div className="flex items-center gap-4">
+      <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-600/20">
+        <FaPenNib size={18} /> 
+      </div>
+      <div>
+        <div className="text-sm font-black text-white uppercase tracking-tight">Curriculum Vitae</div>
+        <div className="text-[9px] text-blue-400 font-bold uppercase tracking-widest">Download PDF • 142kb</div>
+      </div>
+    </div>
+    <div className="p-3 bg-white/5 rounded-full text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+      <FaExternalLinkAlt size={12} />
+    </div>
+  </motion.a>
+</div>
         </div>
       </div>
     </section>
