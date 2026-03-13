@@ -5,7 +5,7 @@ A high-performance, minimalist portfolio built with **Next.js 14**, **Tailwind C
 
 
 ## 🚀 Live Demo
-**Check out the live site here:** [https://your-site.vercel.app](https://your-site.vercel.app)
+**Check out the live site here:** [prakhar-sharma.vercel.app](https://prakhar-sharma.vercel.app/)
 
 ---
 
