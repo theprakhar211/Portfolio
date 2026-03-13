@@ -30,13 +30,38 @@ export default function BeyondTheCode() {
 
   return (
     <section className="py-24 px-6 md:px-10 max-w-7xl mx-auto relative">
-      <motion.h2 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        className="text-3xl font-bold text-white mb-12 text-center tracking-tighter"
-      >
-        BEYOND THE CODE
-      </motion.h2>
+      {/* CREATIVE SECTION TITLE */}
+<div className="relative mb-16 flex flex-col items-center justify-center">
+  {/* 1. Large Faded Background Text (The 'Shadow' Title) */}
+  <motion.span
+    initial={{ opacity: 0, y: 10 }}
+    whileInView={{ opacity: 0.05, y: 0 }}
+    className="absolute text-6xl md:text-8xl font-black text-white select-none tracking-[0.2em] whitespace-nowrap"
+  >
+    ANTHOLOGY
+  </motion.span>
+
+  {/* 2. Main Foreground Title */}
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    className="relative z-10 flex flex-col items-center"
+  >
+    <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter flex items-center gap-3">
+      <span className="text-blue-500">//</span> 
+      BEYOND THE <span className="text-blue-500">CODE</span>
+    </h2>
+    
+    {/* 3. Decorative Sub-line */}
+    <div className="flex items-center gap-4 mt-2">
+      <div className="h-[1px] w-8 md:w-12 bg-blue-500/50" />
+      <span className="text-[10px] uppercase tracking-[0.5em] text-gray-400 font-bold">
+        The Human Layer
+      </span>
+      <div className="h-[1px] w-8 md:w-12 bg-blue-500/50" />
+    </div>
+  </motion.div>
+</div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         
