@@ -33,8 +33,6 @@ export default function About() {
               />
               <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/80 via-transparent to-transparent rounded-[2.5rem]" />
               <div className="absolute bottom-6 left-8">
-                <p className="text-white/50 text-[10px] tracking-[0.3em] uppercase mb-1">Lead Developer</p>
-                <h3 className="text-white font-black text-2xl tracking-tighter">PRAKHAR <span className="text-blue-500 italic font-serif font-light">.v3</span></h3>
               </div>
             </div>
 
