@@ -25,7 +25,7 @@ export default function Projects() {
       description: "Personal developer portfolio built using Next.js. Features include custom 3D flip cards, interactive mouse-tracking spotlights, and a fully responsive glassmorphic UI.",
       tech: ["Next.js", "Tailwind", "Framer"],
       github: "https://github.com/theprakhar211/Portfolio",
-      demo: "#",
+      demo: "https://prakhar-sharma.vercel.app/",
       image: "/projects/portfolio.webp",
     }
   ];
