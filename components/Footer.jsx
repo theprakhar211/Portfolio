@@ -30,7 +30,7 @@ export default function Footer() {
           marginBottom: "20px"
         }}
       >
-        <a href="https://github.com" target="_blank">
+        <a href="https://github.com/theprakhar211" target="_blank">
           <FaGithub />
         </a>
 

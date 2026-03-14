@@ -21,13 +21,6 @@ export default function Contact() {
       link: "https://linkedin.com/in/yourprofile", // Update this with your actual LinkedIn
       color: "hover:text-blue-400"
     },
-    { 
-      icon: <FaTwitter />, 
-      label: "Twitter", 
-      handle: "@prakhar_dev", 
-      link: "https://twitter.com/yourhandle", // Update this with your actual Twitter
-      color: "hover:text-blue-300"
-    },
   ];
 
   return (
