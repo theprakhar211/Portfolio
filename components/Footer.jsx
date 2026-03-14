@@ -34,11 +34,11 @@ export default function Footer() {
           <FaGithub />
         </a>
 
-        <a href="https://linkedin.com" target="_blank">
+        <a href="https://www.linkedin.com/in/prakhar-sharma-21112004-" target="_blank">
           <FaLinkedin />
         </a>
 
-        <a href="mailto:your@email.com">
+        <a href="mailto:theprakhar211@gmail.com">
           <FaEnvelope />
         </a>
       </div>
