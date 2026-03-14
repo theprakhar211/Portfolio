@@ -8,7 +8,7 @@ export default function Projects() {
       title: "Qualif-AI",
       description: "AI powered interview simulator that asks questions and gives feedback using speech recognition and AI models like GPT-4 and Whisper for seamless interaction.",
       tech: ["Next.js", "FastAPI", "OpenAI"],
-      github: "https://github.com/theprakhar211/Qualif-AI",
+      github: "https://github.com/theprakhar211/qualif-ai",
       demo: "#",
       image: "/projects/qualifai.png",
     },
@@ -24,7 +24,7 @@ export default function Projects() {
       title: "Portfolio",
       description: "Personal developer portfolio built using Next.js. Features include custom 3D flip cards, interactive mouse-tracking spotlights, and a fully responsive glassmorphic UI.",
       tech: ["Next.js", "Tailwind", "Framer"],
-      github: "https://github.com/theprakhar211",
+      github: "https://github.com/theprakhar211/Portfolio",
       demo: "#",
       image: "/projects/portfolio.webp",
     }
