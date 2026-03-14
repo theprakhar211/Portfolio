@@ -11,20 +11,20 @@ export default function BeyondTheCode() {
     {
       title: "Questions of the Innocent",
       excerpt: "What are people, who suicide, after?...",
-      link: "https://docs.google.com/link-1", 
+      link: "https://docs.google.com/document/d/121-1X0pfD_ROrT7j8a8aAUcd-WMbu52C8aQohlSjdcI/edit?usp=sharing", 
       image: "/poems/questionsinnocent.jpg" // Place images in /public/poems/
     },
     {
       title: "Prisoner of the Page",
       excerpt: "Now I'm just a Prisoner, bound by the rules...",
       link: "https://docs.google.com/document/d/12JlPHTtjnYeK7hCg_2Re6qXpOYBzSig2BVIRdknutKw/edit?usp=sharing",
-      image: "/poems/silicon.jpg"
+      image: "/poems/prisoner.jpg"
     },
     {
       title: "The Cruel Mistress",
       excerpt: "Sweet and sour, like a fruit of Citrus, there once lived a kind, yet cruel mistress...",
-      link: "https://docs.google.com/link-3",
-      image: "/poems/compiler.jpg"
+      link: "https://docs.google.com/document/d/1UXUdxfCJb4zgShVNFcOQPj4fATsWiCukKNGw_h-xnTs/edit?usp=sharing",
+      image: "/poems/citrus.jpg"
     }
   ];
 
