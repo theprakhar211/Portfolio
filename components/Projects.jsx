@@ -9,7 +9,7 @@ export default function Projects() {
       description: "AI powered interview simulator that asks questions and gives feedback using speech recognition and AI models like GPT-4 and Whisper for seamless interaction.",
       tech: ["Next.js", "FastAPI", "OpenAI"],
       github: "https://github.com/theprakhar211/qualif-ai",
-      demo: "#",
+      demo: "https://qualif-smart-ai.vercel.app/",
       image: "/projects/qualifai.png",
     },
     {
