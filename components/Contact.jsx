@@ -10,7 +10,7 @@ import {
 // 1. Go to https://formspree.io and sign up (free)
 // 2. Create a new form → copy the endpoint URL
 // 3. Paste it here, e.g. "https://formspree.io/f/xyzabcde"
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xeenyyek";
 // ─────────────────────────────────────────────────────────────────────────────
 
 const email   = "theprakhar211@gmail.com";
