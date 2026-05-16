@@ -2,34 +2,25 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
-  FaMusic, FaBookOpen, FaPenNib, FaCode,
-  FaMicrochip, FaRocket, FaExternalLinkAlt,
+  FaMusic, FaBookOpen, FaPenNib,
+  FaHammer, FaMapMarkerAlt, FaBriefcase, FaExternalLinkAlt,
 } from "react-icons/fa";
 
-const stats = [
+const signals = [
   {
-    number: "3",
-    label: "Deployed Projects",
-    sub: "Live & on GitHub",
-    icon: <FaRocket />,
+    icon: <FaHammer />,
+    label: "Currently Building",
+    detail: "Working on CodeQuest",
   },
   {
-    number: "2",
-    label: "AI Applications",
-    sub: "NLP · LLM · STT",
-    icon: <FaMicrochip />,
+    icon: <FaBriefcase />,
+    label: "Open To",
+    detail: "Internships · AI/ML roles · Full-stack · Remote",
   },
   {
-    number: "6+",
-    label: "Languages",
-    sub: "Python, JS, C++ & more",
-    icon: <FaCode />,
-  },
-  {
-    number: "3rd",
-    label: "Year CSE-AI",
-    sub: "Specialisation in AI",
-    icon: <FaBookOpen />,
+    icon: <FaMapMarkerAlt />,
+    label: "Based In",
+    detail: "Bhopal, India · Open to relocation & remote",
   },
 ];
 
@@ -55,10 +46,6 @@ export default function About() {
                 className="rounded-[2.5rem] border border-white/10 object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/80 via-transparent to-transparent rounded-[2.5rem]" />
-              {/* Hover hint */}
-              <div className="absolute bottom-6 right-6 px-3 py-1.5 bg-black/50 backdrop-blur-md rounded-full border border-white/10 text-[10px] text-gray-400 font-bold uppercase tracking-widest opacity-0 group-hover:opacity-0 transition-opacity">
-                Hover to flip
-              </div>
               <div className="absolute bottom-6 left-8 px-3 py-1.5 bg-black/50 backdrop-blur-md rounded-full border border-white/10 text-[10px] text-gray-400 font-bold uppercase tracking-widest">
                 Hover to flip →
               </div>
@@ -73,16 +60,14 @@ export default function About() {
                   backgroundSize: "20px 20px",
                 }}
               />
-
               <h3 className="relative z-10 text-xl font-black text-blue-400 mb-6 flex items-center gap-2">
                 <span className="w-8 h-[1px] bg-blue-500/50" /> BEYOND THE CODE
               </h3>
-
               <div className="relative z-10 grid grid-cols-3 gap-6">
                 {[
-                  { icon: <FaPenNib />, title: "Poetry",  sub: "Logic & Rhythm" },
-                  { icon: <FaMusic />,  title: "Music",   sub: "Discovery" },
-                  { icon: <FaBookOpen />, title: "Manga", sub: "Visual Art" },
+                  { icon: <FaPenNib />,   title: "Poetry", sub: "Logic & Rhythm" },
+                  { icon: <FaMusic />,    title: "Music",  sub: "Discovery" },
+                  { icon: <FaBookOpen />, title: "Manga",  sub: "Visual Art" },
                 ].map((item, i) => (
                   <div key={i} className="space-y-2">
                     <div className="text-blue-500 text-lg">{item.icon}</div>
@@ -91,7 +76,6 @@ export default function About() {
                   </div>
                 ))}
               </div>
-
               <div className="relative z-10 mt-8 pt-6 border-t border-white/5 italic text-gray-400 text-xs leading-relaxed">
                 "I view a compiler as a stage and a codebase as a stanza. My goal is to engineer intelligence that feels inherently human."
               </div>
@@ -114,26 +98,27 @@ export default function About() {
             </p>
           </div>
 
-          {/* STATS GRID */}
-          <div className="grid grid-cols-2 gap-3">
-            {stats.map((stat, i) => (
+          {/* RECRUITER SIGNALS */}
+          <div className="flex flex-col gap-3">
+            {signals.map((s, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08 }}
-                className="p-5 bg-white/[0.03] border border-white/10 rounded-2xl hover:border-blue-500/30 transition-all duration-500 group"
+                initial={{ opacity: 0, x: 16 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="flex items-center gap-4 p-4 bg-white/[0.03] border border-white/10 rounded-2xl hover:border-blue-500/30 transition-all duration-300 group"
               >
-                <div className="flex items-start justify-between mb-1">
-                  <div className="text-3xl font-black text-white">{stat.number}</div>
-                  <div className="text-gray-600 group-hover:text-blue-500/60 transition-colors text-sm mt-1">
-                    {stat.icon}
+                <div className="w-9 h-9 shrink-0 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-sm group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300">
+                  {s.icon}
+                </div>
+                <div>
+                  <div className="text-[9px] font-black text-gray-500 uppercase tracking-[0.18em] leading-none mb-1">
+                    {s.label}
+                  </div>
+                  <div className="text-sm font-medium text-gray-200">
+                    {s.detail}
                   </div>
                 </div>
-                <div className="text-gray-300 text-[11px] font-black uppercase tracking-widest leading-none">
-                  {stat.label}
-                </div>
-                <div className="text-gray-600 text-[9px] mt-1 leading-none">{stat.sub}</div>
               </motion.div>
             ))}
 
@@ -143,11 +128,11 @@ export default function About() {
               target="_blank"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="col-span-2 group p-5 bg-blue-600/10 border border-blue-500/50 rounded-2xl flex items-center justify-between transition-all duration-500 cursor-pointer hover:bg-blue-600/15"
+              className="group mt-1 p-4 bg-blue-600/10 border border-blue-500/50 rounded-2xl flex items-center justify-between transition-all duration-300 cursor-pointer hover:bg-blue-600/20"
             >
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-600/20">
-                  <FaPenNib size={16} />
+                <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-600/20 shrink-0">
+                  <FaPenNib size={14} />
                 </div>
                 <div>
                   <div className="text-sm font-black text-white uppercase tracking-tight">Resume</div>
@@ -156,12 +141,13 @@ export default function About() {
                   </div>
                 </div>
               </div>
-              <div className="p-3 bg-white/5 rounded-full text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                <FaExternalLinkAlt size={12} />
+              <div className="p-2.5 bg-white/5 rounded-full text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                <FaExternalLinkAlt size={11} />
               </div>
             </motion.a>
           </div>
         </div>
+
       </div>
     </section>
   );
