@@ -7,11 +7,10 @@ import {
 } from "react-icons/fa";
 import {
   SiCplusplus, SiNextdotjs, SiFastapi,
-  SiHtml5, SiCss3, SiMongodb, SiGooglecloud,
-  SiMicrosoftazure, SiSalesforce, SiGodotengine,
-  SiJsonwebtokens,
+  SiHtml5, SiCss, SiMongodb, SiGooglecloud,
+  SiSalesforce, SiGodotengine, SiJsonwebtokens,
 } from "react-icons/si";
-import { TbBrain } from "react-icons/tb";
+import { TbBrain, TbBrandAzure } from "react-icons/tb";
 
 const categories = [
   {
@@ -23,7 +22,7 @@ const categories = [
       { name: "C++",          icon: <SiCplusplus />, level: "Proficient" },
       { name: "Java",         icon: <FaJava />,      level: "Proficient" },
       { name: "GDScript",     icon: <SiGodotengine />, level: "Familiar" },
-      { name: "HTML / CSS",   icon: <SiHtml5 />,     level: "Daily driver" },
+      { name: "HTML / CSS",   icon: <SiCss />,           level: "Daily driver" },
     ],
   },
   {
@@ -46,7 +45,7 @@ const categories = [
       { name: "Generative AI",   icon: <TbBrain />,          level: "Proficient" },
       { name: "Speech-to-Text",  icon: <TbBrain />,          level: "Familiar" },
       { name: "Google Cloud",    icon: <SiGooglecloud />,    level: "Familiar" },
-      { name: "Microsoft Azure", icon: <SiMicrosoftazure />, level: "Familiar" },
+      { name: "Microsoft Azure", icon: <TbBrandAzure />, level: "Familiar" },
     ],
   },
   {
