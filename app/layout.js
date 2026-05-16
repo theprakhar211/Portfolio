@@ -2,23 +2,25 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import BackgroundWrapper from "@/components/BackgroundWrapper";
 
+const BASE_URL = "https://prakhar-sharma.vercel.app";
+
 export const metadata = {
-  title: "Prakhar Sharma — AI & Full-Stack Developer",
+  title: "Prakhar Sharma — AI & Full-Stack Developer | CSE-AI Student",
   description:
-    "3rd year CSE-AI student building intelligent systems, developer tools, and interactive applications. Specialising in NLP, Generative AI, and full-stack development.",
-  metadataBase: new URL("https://prakhar-sharma.vercel.app"),
+    "Portfolio of Prakhar Sharma, a 3rd year CSE-AI student from Gwalior specialising in NLP, Generative AI, FastAPI, and React. Building intelligent systems and full-stack applications.",
+  metadataBase: new URL(BASE_URL),
   openGraph: {
-    title: "Prakhar Sharma — AI & Full-Stack Developer",
+    title: "Prakhar Sharma — AI & Full-Stack Developer | CSE-AI Student",
     description:
-      "3rd year CSE-AI student building intelligent systems, developer tools, and interactive applications.",
-    url: "https://prakhar-sharma.vercel.app",
+      "Portfolio of Prakhar Sharma, a 3rd year CSE-AI student from Gwalior specialising in NLP, Generative AI, FastAPI, and React. Building intelligent systems and full-stack applications.",
+    url: BASE_URL,
     siteName: "Prakhar Sharma",
     images: [
       {
-        url: "/screenshot.png",
+        url: `${BASE_URL}/screenshot.png`,
         width: 1200,
         height: 630,
-        alt: "Prakhar Sharma — Portfolio",
+        alt: "Prakhar Sharma — AI & Full-Stack Developer Portfolio",
       },
     ],
     locale: "en_US",
@@ -26,10 +28,10 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Prakhar Sharma — AI & Full-Stack Developer",
+    title: "Prakhar Sharma — AI & Full-Stack Developer | CSE-AI Student",
     description:
-      "3rd year CSE-AI student building intelligent systems, developer tools, and interactive applications.",
-    images: ["/screenshot.png"],
+      "Portfolio of Prakhar Sharma, a 3rd year CSE-AI student from Gwalior specialising in NLP, Generative AI, FastAPI, and React. Building intelligent systems and full-stack applications.",
+    images: [`${BASE_URL}/screenshot.png`],
   },
 };
 
