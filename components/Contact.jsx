@@ -18,7 +18,7 @@ export default function Contact() {
       icon: <FaLinkedin />, 
       label: "LinkedIn", 
       handle: "Prakhar", 
-      link: "https://linkedin.com/in/yourprofile", // Update this with your actual LinkedIn
+      link: "https://www.linkedin.com/in/prakhar-sharma-21112004-", // Update this with your actual LinkedIn
       color: "hover:text-blue-400"
     },
   ];
