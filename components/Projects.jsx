@@ -235,34 +235,38 @@ function ProjectCard({ project, index, onClick }) {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.12 }}
       onClick={onClick}
-      className="group relative rounded-3xl overflow-hidden border border-white/10 hover:border-blue-500/30 bg-slate-900 shadow-xl cursor-pointer flex flex-col transition-all duration-300"
+      className="group relative rounded-3xl overflow-hidden border border-white/10 hover:border-blue-500/30 shadow-xl cursor-pointer flex flex-col transition-all duration-300 min-h-[320px]"
     >
-      {/* Image */}
-      <div className="relative h-44 overflow-hidden shrink-0">
-        <div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-          style={{ backgroundImage: `url(${project.image})` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-slate-900" />
-        <div className="absolute top-4 left-5 text-white/20 font-black text-3xl select-none">
+      {/* Full card background image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+        style={{ backgroundImage: `url(${project.image})` }}
+      />
+
+      {/* Blue tint overlay — darkens on hover */}
+      <div className="absolute inset-0 bg-gradient-to-b from-blue-950/60 via-slate-900/80 to-slate-900/95 group-hover:from-blue-950/70 group-hover:to-slate-900/98 transition-all duration-500" />
+
+      {/* Index number — top left */}
+      <div className="relative z-10 p-6 pb-0">
+        <span className="text-white/15 font-black text-3xl select-none">
           0{index + 2}
-        </div>
+        </span>
       </div>
 
-      {/* Content */}
-      <div className="flex flex-col flex-1 p-6">
+      {/* Content — sits on top of image */}
+      <div className="relative z-10 flex flex-col flex-1 p-6 pt-3 justify-end">
         <div className="text-blue-400 text-[10px] font-black uppercase tracking-widest mb-1">
           {project.tagline}
         </div>
         <h3 className="text-xl font-black text-white mb-2">{project.title}</h3>
-        <p className="text-gray-400 text-xs leading-relaxed line-clamp-3 mb-4 flex-1">
+        <p className="text-gray-300 text-xs leading-relaxed line-clamp-3 mb-4 flex-1">
           {project.description}
         </p>
 
         {/* Tech */}
         <div className="flex flex-wrap gap-1.5 mb-5">
           {project.tech.map((t, i) => (
-            <span key={i} className="text-[9px] font-bold px-2.5 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-300 uppercase">
+            <span key={i} className="text-[9px] font-bold px-2.5 py-1 bg-blue-500/20 border border-blue-500/30 rounded-full text-blue-300 uppercase backdrop-blur-sm">
               {t}
             </span>
           ))}
@@ -277,18 +281,21 @@ function ProjectCard({ project, index, onClick }) {
             {project.demo && project.demo !== "#" && (
               <a href={project.demo} target="_blank" rel="noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-all">
+                className="p-2 bg-black/30 hover:bg-black/50 backdrop-blur-sm rounded-lg text-gray-300 hover:text-white transition-all">
                 <FaExternalLinkAlt size={11} />
               </a>
             )}
             <a href={project.github} target="_blank" rel="noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-all">
+              className="p-2 bg-black/30 hover:bg-black/50 backdrop-blur-sm rounded-lg text-gray-300 hover:text-white transition-all">
               <FaGithub size={14} />
             </a>
           </div>
         </div>
       </div>
+
+      {/* Border glow on hover */}
+      <div className="absolute inset-0 border-2 border-transparent group-hover:border-blue-500/30 rounded-3xl pointer-events-none transition-all duration-500" />
     </motion.div>
   );
 }
