@@ -10,7 +10,7 @@ const signals = [
   {
     icon: <FaHammer />,
     label: "Currently Building",
-    detail: "Working on CodeQuest",
+    detail: "DebateAI — an AI-powered debate & argument platform",
   },
   {
     icon: <FaBriefcase />,
@@ -137,7 +137,7 @@ export default function About() {
                 <div>
                   <div className="text-sm font-black text-white uppercase tracking-tight">Resume</div>
                   <div className="text-[9px] text-blue-400 font-bold uppercase tracking-widest">
-                    Download PDF • 142kb
+                    Download PDF
                   </div>
                 </div>
               </div>
