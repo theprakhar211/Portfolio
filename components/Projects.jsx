@@ -1,6 +1,6 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaGithub, FaExternalLinkAlt, FaTimes } from "react-icons/fa";
 
 const projects = [
@@ -58,10 +58,24 @@ const projects = [
 ];
 
 function Modal({ project, onClose }) {
+  // Lock body scroll while modal is open
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
+
+  // Close on Escape key
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-10"
+        className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-6"
+        style={{ paddingTop: "72px" }} // clears the navbar on all screen sizes
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -72,21 +86,26 @@ function Modal({ project, onClose }) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ type: "spring", stiffness: 300, damping: 28 }}
-          className="relative z-10 w-full max-w-2xl bg-slate-900 border border-white/10 rounded-3xl overflow-hidden shadow-2xl"
+          className="relative z-10 w-full max-w-2xl bg-slate-900 border border-white/10 rounded-3xl shadow-2xl flex flex-col"
+          style={{ maxHeight: "calc(100vh - 88px)" }} // viewport minus navbar + gap
         >
+          {/* Image header — fixed, never scrolls */}
           <div
-            className="w-full h-48 bg-cover bg-center relative"
+            className="w-full h-44 bg-cover bg-center relative rounded-t-3xl shrink-0 overflow-hidden"
             style={{ backgroundImage: `url(${project.image})` }}
           >
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-900" />
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 p-2 bg-black/50 backdrop-blur-md rounded-full text-white hover:bg-white/10 transition-all"
+              aria-label="Close"
+              className="absolute top-4 right-4 p-2 bg-black/50 backdrop-blur-md rounded-full text-white hover:bg-white/10 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             >
               <FaTimes size={14} />
             </button>
           </div>
-          <div className="p-8 -mt-4">
+
+          {/* Scrollable content */}
+          <div className="overflow-y-auto flex-1 p-8 -mt-4">
             <div className="mb-2 text-blue-400 text-xs font-black uppercase tracking-widest">
               {project.tagline}
             </div>
@@ -107,7 +126,7 @@ function Modal({ project, onClose }) {
                 </span>
               ))}
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-3 pb-2">
               {project.demo && project.demo !== "#" && (
                 <a href={project.demo} target="_blank" rel="noreferrer"
                   className="flex-1 flex items-center justify-center gap-2 py-3 bg-blue-600 hover:bg-blue-500 text-white text-sm font-black rounded-xl transition-all active:scale-95">
