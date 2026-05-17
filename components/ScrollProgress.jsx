@@ -3,7 +3,6 @@
 import { motion, useScroll } from "framer-motion";
 
 export default function ScrollProgress() {
-
   const { scrollYProgress } = useScroll();
 
   return (
@@ -14,10 +13,10 @@ export default function ScrollProgress() {
         top: 0,
         left: 0,
         right: 0,
-        height: "4px",
-        background: "#38bdf8",
+        height: "3px",
+        background: "#3b82f6",
         transformOrigin: "0%",
-        zIndex: 50
+        zIndex: 49,
       }}
     />
   );
