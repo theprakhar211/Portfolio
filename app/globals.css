@@ -20,14 +20,9 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background-color: #0f172a; 
+  color: white;
   font-family: Arial, Helvetica, sans-serif;
-}
-
-body { 
-background-color: #0f172a; 
-color: white;
 }
 
 html {
@@ -38,17 +33,19 @@ section {
   scroll-margin-top: 80px;
 }
 
-@layer utilities {
-  .perspective-1000 {
-    perspective: 1000px;
-  }
-  .preserve-3d {
-    transform-style: preserve-3d;
-  }
-  .backface-hidden {
-    backface-visibility: hidden;
-  }
-  .rotate-y-180 {
-    transform: rotateY(180deg);
-  }
+/* Tailwind v4 Custom Utilities API */
+@utility perspective-1000 {
+  perspective: 1000px;
+}
+
+@utility preserve-3d {
+  transform-style: preserve-3d;
+}
+
+@utility backface-hidden {
+  backface-visibility: hidden;
+}
+
+@utility rotate-y-180 {
+  transform: rotateY(180deg);
 }

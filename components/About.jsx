@@ -10,7 +10,7 @@ const signals = [
   {
     icon: <FaHammer />,
     label: "Currently Building",
-    detail: "DebateAI — an AI-powered debate & argument platform",
+    detail: "agAInst — an AI-powered debate & argument platform",
   },
   {
     icon: <FaBriefcase />,
