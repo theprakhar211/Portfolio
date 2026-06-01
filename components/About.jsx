@@ -10,7 +10,7 @@ const signals = [
   {
     icon: <FaHammer />,
     label: "Currently Building",
-    detail: "agAInst — an AI-powered debate & argument platform",
+    detail: "CodeQuest: Syntax Scrolls — An interactive code exploration game blending compiler theory with RPG elements. (Launching Soon)",
   },
   {
     icon: <FaBriefcase />,
