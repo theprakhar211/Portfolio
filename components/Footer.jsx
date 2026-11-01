@@ -30,7 +30,7 @@ export default function Footer() {
           <span className="text-white font-black text-lg tracking-tight">
             Prakhar<span className="text-blue-500">.</span>
           </span>
-          <span className="text-gray-600 text-xs">
+          <span className="text-gray-400 text-xs">
             Software Engineer · AI · Game Dev
           </span>
         </div>
@@ -52,7 +52,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <p className="text-gray-600 text-xs">
+        <p className="text-gray-400 text-xs">
           © {new Date().getFullYear()} Prakhar Sharma. All rights reserved.
         </p>
 

@@ -1,140 +1,286 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, animate, useInView, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { FaArrowRight } from "react-icons/fa";
 
 const ROLES = [
   "AI Systems Builder",
   "Full-Stack Developer",
+  "LLM Evals & Guardrails",
   "Game Developer",
   "Poet & Engineer",
 ];
 
-export default function Hero() {
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [displayed, setDisplayed] = useState("");
-  const [deleting, setDeleting] = useState(false);
-  const [charIndex, setCharIndex] = useState(0);
+const STATS = [
+  { value: 248, label: "automated tests" },
+  { value: 81, suffix: "%", label: "coverage on Qualif-AI" },
+  { value: 5, label: "layers of injection defence" },
+  { value: 3, label: "deployed AI systems" },
+];
 
+// Sample answers cycled in the score card (illustrative, not real user data)
+const SAMPLES = [
+  { q: "Explain REST vs GraphQL", total: 84, bars: [["Keywords", 90], ["Structure", 82], ["Depth", 76]] },
+  { q: "What is a database index?", total: 71, bars: [["Keywords", 78], ["Structure", 70], ["Depth", 62]] },
+  { q: "Describe handling a team conflict", total: 63, bars: [["Keywords", 55], ["Structure", 74], ["Depth", 60]] },
+];
+
+function useTypewriter(words, reduce) {
+  const [text, setText] = useState("");
   useEffect(() => {
-    const current = ROLES[roleIndex];
+    if (reduce) return;
+    let w = 0;
+    let c = 0;
+    let deleting = false;
+    let t;
+    const tick = () => {
+      const word = words[w];
+      if (!deleting) {
+        c += 1;
+        setText(word.slice(0, c));
+        if (c === word.length) {
+          deleting = true;
+          t = setTimeout(tick, 1800);
+          return;
+        }
+        t = setTimeout(tick, 60);
+      } else {
+        c -= 1;
+        setText(word.slice(0, c));
+        if (c === 0) {
+          deleting = false;
+          w = (w + 1) % words.length;
+          t = setTimeout(tick, 300);
+          return;
+        }
+        t = setTimeout(tick, 35);
+      }
+    };
+    t = setTimeout(tick, 600);
+    return () => clearTimeout(t);
+  }, [words, reduce]);
+  return reduce ? words[0] : text;
+}
 
-    if (!deleting && charIndex < current.length) {
-      const t = setTimeout(() => {
-        setDisplayed(current.slice(0, charIndex + 1));
-        setCharIndex((c) => c + 1);
-      }, 60);
-      return () => clearTimeout(t);
+function AnimatedNumber({ value, duration = 1.1 }) {
+  const ref = useRef(null);
+  const prev = useRef(0);
+  const reduce = useReducedMotion();
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    if (reduce) {
+      node.textContent = value;
+      prev.current = value;
+      return;
     }
+    const controls = animate(prev.current, value, {
+      duration,
+      ease: "easeOut",
+      onUpdate: (v) => { node.textContent = Math.round(v); },
+    });
+    prev.current = value;
+    return () => controls.stop();
+  }, [value, duration, reduce]);
+  return <span ref={ref}>0</span>;
+}
 
-    if (!deleting && charIndex === current.length) {
-      const t = setTimeout(() => setDeleting(true), 1800);
-      return () => clearTimeout(t);
-    }
+function ScoreCard() {
+  const [i, setI] = useState(0);
+  const reduce = useReducedMotion();
+  useEffect(() => {
+    if (reduce) return;
+    const id = setInterval(() => setI((n) => (n + 1) % SAMPLES.length), 4500);
+    return () => clearInterval(id);
+  }, [reduce]);
 
-    if (deleting && charIndex > 0) {
-      const t = setTimeout(() => {
-        setDisplayed(current.slice(0, charIndex - 1));
-        setCharIndex((c) => c - 1);
-      }, 35);
-      return () => clearTimeout(t);
-    }
+  const s = SAMPLES[i];
+  const R = 42;
+  const C = 2 * Math.PI * R;
 
-    if (deleting && charIndex === 0) {
-      setDeleting(false);
-      setRoleIndex((i) => (i + 1) % ROLES.length);
-    }
-  }, [charIndex, deleting, roleIndex]);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 0.35 }}
+      className="relative w-full max-w-md justify-self-center lg:justify-self-end rounded-3xl border border-white/10 bg-slate-900/60 p-6 backdrop-blur-md shadow-2xl"
+    >
+      <div className="absolute -inset-px -z-10 rounded-3xl bg-gradient-to-br from-blue-500/25 via-transparent to-amber-400/15 blur-xl" />
+      <div className="mb-5 flex items-center justify-between text-sm">
+        <span className="font-display font-semibold text-white">Qualif-AI</span>
+        <span className="text-gray-400">Sample score breakdown</span>
+      </div>
+
+      <p key={s.q} className="mb-5 min-h-[2.5rem] text-sm text-gray-300">
+        <span className="text-gray-400">Question: </span>{s.q}
+      </p>
+
+      <div className="flex items-center gap-6">
+        <div className="relative h-28 w-28 shrink-0">
+          <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90">
+            <circle cx="50" cy="50" r={R} fill="none" strokeWidth="9" className="stroke-white/10" />
+            <motion.circle
+              cx="50" cy="50" r={R} fill="none" strokeWidth="9" strokeLinecap="round"
+              className="stroke-blue-400"
+              strokeDasharray={C}
+              initial={{ strokeDashoffset: C }}
+              animate={{ strokeDashoffset: C * (1 - s.total / 100) }}
+              transition={{ duration: reduce ? 0 : 1.1, ease: "easeOut" }}
+            />
+          </svg>
+          <div className="absolute inset-0 grid place-items-center font-display text-3xl font-extrabold text-white">
+            <AnimatedNumber value={s.total} />
+          </div>
+        </div>
+
+        <div className="flex-1 space-y-3">
+          {s.bars.map(([label, v]) => (
+            <div key={label}>
+              <div className="mb-1 flex justify-between text-xs text-gray-400">
+                <span>{label}</span><span>{v}</span>
+              </div>
+              <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
+                <motion.div
+                  className="h-full rounded-full bg-gradient-to-r from-blue-500 to-violet-400"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${v}%` }}
+                  transition={{ duration: reduce ? 0 : 0.9, ease: "easeOut" }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <p className="mt-5 border-t border-white/10 pt-4 text-xs text-gray-400">
+        72% LLM judgement, 28% deterministic checks. Illustrative values.
+      </p>
+    </motion.div>
+  );
+}
+
+function Stat({ value, suffix = "", label }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+  return (
+    <div ref={ref} className="bg-slate-950/70 px-5 py-5 backdrop-blur-sm">
+      <div className="font-display text-3xl font-extrabold tracking-tight text-amber-400 md:text-4xl">
+        <AnimatedNumber value={inView ? value : 0} />{suffix}
+      </div>
+      <div className="mt-1 text-sm text-gray-400">{label}</div>
+    </div>
+  );
+}
+
+export default function Hero() {
+  const reduce = useReducedMotion();
+  const role = useTypewriter(ROLES, reduce);
 
   return (
     <section
       id="home"
-      className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden"
+      className="relative flex min-h-screen flex-col justify-center overflow-hidden px-6 pb-16 pt-28 md:px-10"
     >
-      {/* Ambient glow blobs */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-blue-600/10 blur-[120px]" />
-        <div className="absolute top-2/3 left-1/4 w-[300px] h-[300px] rounded-full bg-indigo-500/8 blur-[100px]" />
+      {/* Dot grid, faded toward the edges */}
+      <div
+        aria-hidden="true"
+        className="bg-dots pointer-events-none absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]"
+      />
+
+      <div className="mx-auto grid w-full max-w-7xl items-center gap-14 lg:grid-cols-[1.15fr_0.85fr]">
+        <div>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-gray-300"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+            </span>
+            Open to internships
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="mb-4 text-base text-gray-400"
+          >
+            <span className="font-semibold text-white">Prakhar Sharma</span>
+            {" "}· Final-year CSE (AI) · Bhopal
+          </motion.p>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="font-display text-5xl font-extrabold leading-[1.02] tracking-tight text-white md:text-6xl lg:text-7xl"
+          >
+            I build AI products that{" "}
+            <span className="bg-gradient-to-r from-blue-400 via-violet-400 to-amber-300 bg-clip-text text-transparent">
+              keep working after the demo.
+            </span>
+          </motion.h1>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="mb-6 mt-6 flex h-9 items-center"
+          >
+            <span className="font-mono text-xl text-gray-300 md:text-2xl">
+              {role}
+              <span className="ml-1 inline-block h-6 w-[2px] animate-pulse bg-blue-400 align-middle" />
+            </span>
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="mb-9 max-w-xl text-lg leading-relaxed text-gray-400"
+          >
+            I ship LLM apps with the unglamorous parts done properly: guardrails,
+            evals, tests, and monitoring.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.55 }}
+            className="flex flex-col items-start gap-4 sm:flex-row sm:items-center"
+          >
+            <a
+              href="#projects"
+              className="group inline-flex items-center gap-2 rounded-xl bg-blue-500 px-7 py-3.5 text-sm font-bold text-white transition-all hover:bg-blue-400 hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] active:scale-95"
+            >
+              View my work
+              <FaArrowRight className="transition-transform group-hover:translate-x-1" size={12} />
+            </a>
+            <a
+              href="#contact"
+              className="rounded-xl border border-white/15 px-7 py-3.5 text-sm font-bold text-gray-200 transition-all hover:border-blue-400/50 hover:text-white active:scale-95"
+            >
+              Get in touch
+            </a>
+          </motion.div>
+        </div>
+
+        <ScoreCard />
       </div>
 
-      {/* Eyebrow */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="mb-5 px-4 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-[0.2em]"
-      >
-        Available for opportunities
-      </motion.div>
-
-      {/* Name */}
-      <motion.h1
-        initial={{ opacity: 0, y: 32 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-        className="text-6xl md:text-7xl font-black tracking-tighter text-white mb-3"
-      >
-        Hi, I'm{" "}
-        <span className="text-blue-400">Prakhar</span>
-      </motion.h1>
-
-      {/* Typing role */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3 }}
-        className="h-10 flex items-center justify-center mb-6"
-      >
-        <span className="text-2xl md:text-3xl font-light text-gray-300 font-mono">
-          {displayed}
-          <span className="inline-block w-[2px] h-6 bg-blue-400 ml-1 align-middle animate-pulse" />
-        </span>
-      </motion.div>
-
-      {/* Tagline */}
-      <motion.p
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-        className="text-gray-400 max-w-xl text-base leading-relaxed mb-10"
+        transition={{ delay: 0.8, duration: 0.6 }}
+        className="mx-auto mt-16 grid w-full max-w-7xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-4"
       >
-        3rd year CSE-AI student building intelligent systems, developer tools,
-        and interactive applications — where logic meets expression.
-      </motion.p>
-
-      {/* CTAs — clear visual hierarchy */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.55 }}
-        className="flex flex-col sm:flex-row gap-4 items-center"
-      >
-        {/* Primary */}
-        <a
-          href="#projects"
-          className="group relative px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-500 text-white overflow-hidden transition-all hover:bg-blue-400 hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] active:scale-95"
-        >
-          View My Work
-        </a>
-
-        {/* Secondary — visually quieter */}
-        <a
-          href="#contact"
-          className="px-8 py-3.5 rounded-xl font-bold text-sm border border-white/10 text-gray-300 hover:border-blue-500/40 hover:text-white transition-all active:scale-95"
-        >
-          Get in Touch
-        </a>
-      </motion.div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <span className="text-[10px] text-gray-600 uppercase tracking-[0.2em] font-bold">Scroll</span>
-        <div className="w-[1px] h-10 bg-gradient-to-b from-gray-600 to-transparent" />
+        {STATS.map((s) => (
+          <Stat key={s.label} {...s} />
+        ))}
       </motion.div>
     </section>
   );

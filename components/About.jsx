@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   FaMusic, FaBookOpen, FaPenNib,
@@ -25,6 +26,7 @@ const signals = [
 ];
 
 export default function About() {
+  const [flipped, setFlipped] = useState(false);
   return (
     <section id="about" className="py-24 px-6 md:px-10 max-w-7xl mx-auto">
       <div className="grid md:grid-cols-[1.2fr_1fr] gap-16 items-center">
@@ -35,7 +37,15 @@ export default function About() {
           whileInView={{ opacity: 1, x: 0 }}
           className="perspective-1000 group w-full"
         >
-          <div className="relative w-full aspect-video transition-transform duration-700 preserve-3d group-hover:rotate-y-180 cursor-pointer shadow-2xl">
+          <div
+            role="button"
+            tabIndex={0}
+            aria-pressed={flipped}
+            aria-label="Flip profile card"
+            onClick={() => setFlipped((f) => !f)}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setFlipped((f) => !f); } }}
+            className={`relative w-full aspect-video transition-transform duration-700 preserve-3d group-hover:rotate-y-180 cursor-pointer shadow-2xl ${flipped ? "rotate-y-180" : ""}`}
+          >
 
             {/* FRONT */}
             <div className="absolute inset-0 backface-hidden">
@@ -47,7 +57,7 @@ export default function About() {
               />
               <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/80 via-transparent to-transparent rounded-[2.5rem]" />
               <div className="absolute bottom-6 left-8 px-3 py-1.5 bg-black/50 backdrop-blur-md rounded-full border border-white/10 text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-                Hover to flip →
+                Hover or tap to flip →
               </div>
             </div>
 

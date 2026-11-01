@@ -8,7 +8,7 @@ const projects = [
     title: "Qualif-AI",
     tagline: "AI Interview Simulator",
     description:
-      "Voice-first mock interview platform with two modes — Quick Practice and a structured 4-phase Complete Interview using your actual resume. Answers are evaluated by a blended scoring system: 72% Llama 3.3 70B + 28% deterministic checks for keyword coverage and answer structure. Tracks skill mastery across 35+ skills with exponential weighting, benchmarks your answers against AI-generated ideal responses, and deduplicates questions across sessions via hash fingerprinting. Backed by 103 automated tests via GitHub Actions.",
+      "Voice-first mock interview platform with two modes — Quick Practice and a structured 4-phase Complete Interview using your actual resume. Answers are evaluated by a blended scoring system: 72% Llama 3.3 70B + 28% deterministic checks for keyword coverage and answer structure. Tracks skill mastery across 35+ skills with exponential weighting, benchmarks your answers against AI-generated ideal responses, and deduplicates questions across sessions via hash fingerprinting. Backed by 248 automated tests at 81% coverage via GitHub Actions.",
     tech: ["FastAPI", "React", "MongoDB", "Groq / LLaMA", "JWT", "GitHub Actions"],
     github: "https://github.com/theprakhar211/qualif-ai",
     demo: "https://qualif-smart-ai.vercel.app/",
@@ -18,8 +18,13 @@ const projects = [
       "Skill graph — 35+ skills across 7 categories with exponential session weighting",
       "Answer benchmarking against permanently cached ideal answers per question",
       "Question deduplication via 8-char hash fingerprinting — fresh questions for 25+ sessions",
-      "Prompt injection protection via regex sanitisation + explicit LLM-level rules",
-      "103 automated tests via GitHub Actions — caught 5 real production bugs",
+      "5-layer prompt-injection defence: regex sanitisation, XML delimiters, system rules, score floor, LLM classifier",
+      "248 automated tests at 81% coverage via GitHub Actions — caught 5 real production bugs",
+    ],
+    metrics: [
+      { value: "248", label: "tests" },
+      { value: "81%", label: "coverage" },
+      { value: "5", label: "defence layers" },
     ],
     featured: true,
   },
@@ -36,6 +41,10 @@ const projects = [
       "Custom logic engine for real-time solution evaluation",
       "Quest-based learning progression system",
       "Built entirely in Godot with GDScript",
+    ],
+    metrics: [
+      { value: "Godot", label: "2D RPG" },
+      { value: "Python", label: "code sandbox" },
     ],
     featured: false,
   },
@@ -56,9 +65,45 @@ const projects = [
       "2-player local mode with screen-blur handoff between turns",
       "Side Flip mode, fallacy detection, verdict caching, and PDF transcript export",
     ],
+    metrics: [
+      { value: "3", label: "LLM agents" },
+      { value: "Realtime", label: "PvP mode" },
+    ],
     featured: false,
   },
 ];
+
+function spot(e) {
+  const r = e.currentTarget.getBoundingClientRect();
+  e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
+  e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
+}
+
+const activate = (fn) => (e) => {
+  if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fn(); }
+};
+
+function Metrics({ items }) {
+  return (
+    <div className="mb-5 flex flex-wrap gap-x-5 gap-y-1">
+      {items.map((m) => (
+        <span key={m.label} className="text-sm text-gray-300">
+          <span className="font-display font-bold text-amber-400">{m.value}</span>{" "}{m.label}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function Spotlight() {
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+      style={{ background: "radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgba(96,165,250,0.14), transparent 60%)" }}
+    />
+  );
+}
 
 function Modal({ project, onClose }) {
   // Lock body scroll while modal is open
@@ -109,10 +154,11 @@ function Modal({ project, onClose }) {
 
           {/* Scrollable content */}
           <div className="overflow-y-auto flex-1 p-8 -mt-4">
-            <div className="mb-2 text-blue-400 text-xs font-black uppercase tracking-widest">
+            <div className="mb-2 text-blue-400 text-sm font-semibold">
               {project.tagline}
             </div>
-            <h3 className="text-3xl font-black text-white mb-3">{project.title}</h3>
+            <h3 className="font-display text-3xl font-extrabold text-white mb-3">{project.title}</h3>
+            <Metrics items={project.metrics} />
             <p className="text-gray-400 text-sm leading-relaxed mb-6">{project.description}</p>
             <ul className="space-y-2 mb-6">
               {project.highlights.map((h, i) => (
@@ -124,7 +170,7 @@ function Modal({ project, onClose }) {
             </ul>
             <div className="flex flex-wrap gap-2 mb-8">
               {project.tech.map((t, i) => (
-                <span key={i} className="text-[10px] font-bold px-3 py-1 bg-blue-500/15 border border-blue-500/30 rounded-full text-blue-300 uppercase tracking-wide">
+                <span key={i} className="text-xs font-medium px-3 py-1 bg-blue-500/15 border border-blue-500/30 rounded-full text-blue-200">
                   {t}
                 </span>
               ))}
@@ -148,84 +194,68 @@ function Modal({ project, onClose }) {
   );
 }
 
-// ── Featured hero card (full-width, landscape split) ────────────────────────
+// ── Featured card (full width, image + content split) ──────────────────────
 function FeaturedCard({ project, onClick }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.5 }}
       onClick={onClick}
-      className="group relative w-full rounded-3xl overflow-hidden border border-blue-500/25 bg-slate-900 shadow-2xl cursor-pointer grid grid-cols-1 md:grid-cols-2 min-h-[340px]"
+      onKeyDown={activate(onClick)}
+      onPointerMove={spot}
+      role="button"
+      tabIndex={0}
+      aria-label={`Open details for ${project.title}`}
+      className="group relative grid min-h-[360px] w-full cursor-pointer grid-cols-1 overflow-hidden rounded-3xl border border-white/10 bg-slate-900/80 shadow-2xl transition-colors duration-300 hover:border-blue-400/40 md:grid-cols-[1.05fr_1fr]"
     >
-      {/* Left — image */}
-      <div className="relative overflow-hidden min-h-[220px] md:min-h-full">
+      <div className="relative min-h-[240px] overflow-hidden md:min-h-full">
         <div
           className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
           style={{ backgroundImage: `url(${project.image})` }}
         />
-        {/* Fade into right content panel on desktop */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-slate-900 hidden md:block" />
-        {/* Fade into bottom content panel on mobile */}
+        <div className="absolute inset-0 hidden bg-gradient-to-r from-transparent to-slate-900 md:block" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-900 md:hidden" />
       </div>
 
-      {/* Right — content */}
       <div className="relative z-10 flex flex-col justify-center p-8 md:p-10">
-        <div className="mb-4 self-start px-3 py-1 bg-blue-600 text-white text-[9px] font-black uppercase tracking-widest rounded-full">
-          ★ Featured
+        <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
+          <span className="rounded-full bg-amber-400/15 px-3 py-1 text-amber-300">Featured</span>
+          <span className="text-blue-300">{project.tagline}</span>
         </div>
-        <div className="text-blue-400 text-[10px] font-black uppercase tracking-widest mb-2">
-          {project.tagline}
-        </div>
-        <h3 className="text-3xl md:text-4xl font-black text-white tracking-tighter mb-3">
+        <h3 className="font-display mb-3 text-4xl font-extrabold tracking-tight text-white md:text-5xl">
           {project.title}
         </h3>
-        <p className="text-gray-400 text-sm leading-relaxed mb-5 line-clamp-3">
-          {project.description}
-        </p>
+        <p className="mb-5 line-clamp-3 text-sm leading-relaxed text-gray-400">{project.description}</p>
 
-        {/* Top 3 highlights */}
-        <ul className="space-y-1.5 mb-5">
-          {project.highlights.slice(0, 3).map((h, i) => (
-            <li key={i} className="flex items-center gap-2 text-xs text-gray-300">
-              <span className="w-1 h-1 rounded-full bg-blue-500 shrink-0" />
-              {h}
-            </li>
-          ))}
-        </ul>
+        <Metrics items={project.metrics} />
 
-        {/* Tech tags */}
-        <div className="flex flex-wrap gap-1.5 mb-6">
-          {project.tech.map((t, i) => (
-            <span key={i} className="text-[9px] font-bold px-2.5 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-300 uppercase">
+        <div className="mb-6 flex flex-wrap gap-1.5">
+          {project.tech.map((t) => (
+            <span key={t} className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-medium text-gray-300">
               {t}
             </span>
           ))}
         </div>
 
-        {/* Actions */}
-        <div className="flex flex-wrap gap-3 items-center">
+        <div className="flex flex-wrap items-center gap-3">
           {project.demo && (
-            <a href={project.demo} target="_blank" rel="noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-black rounded-xl transition-all active:scale-95">
-              Live Demo <FaExternalLinkAlt size={10} />
+            <a href={project.demo} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}
+              className="flex items-center gap-2 rounded-xl bg-blue-500 px-5 py-2.5 text-sm font-bold text-white transition-all hover:bg-blue-400 active:scale-95">
+              Live demo <FaExternalLinkAlt size={10} />
             </a>
           )}
-          <a href={project.github} target="_blank" rel="noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="flex items-center gap-2 px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-bold rounded-xl transition-all">
+          <a href={project.github} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}
+            className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-white/10">
             <FaGithub size={14} /> GitHub
           </a>
-          <span className="ml-auto text-xs text-blue-400 font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <span className="ml-auto text-sm font-semibold text-blue-300 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
             Full details →
           </span>
         </div>
       </div>
-
-      {/* Glow border on hover */}
-      <div className="absolute inset-0 border-2 border-transparent group-hover:border-blue-500/40 rounded-3xl pointer-events-none transition-all duration-500" />
+      <Spotlight />
     </motion.div>
   );
 }
@@ -236,69 +266,58 @@ function ProjectCard({ project, index, onClick }) {
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
       transition={{ delay: index * 0.12 }}
       onClick={onClick}
-      className="group relative rounded-3xl overflow-hidden border border-white/10 hover:border-blue-500/30 shadow-xl cursor-pointer flex flex-col transition-all duration-300 min-h-[320px]"
+      onKeyDown={activate(onClick)}
+      onPointerMove={spot}
+      role="button"
+      tabIndex={0}
+      aria-label={`Open details for ${project.title}`}
+      className="group relative flex min-h-[340px] cursor-pointer flex-col overflow-hidden rounded-3xl border border-white/10 shadow-xl transition-colors duration-300 hover:border-blue-400/40"
     >
-      {/* Full card background image */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
         style={{ backgroundImage: `url(${project.image})` }}
       />
+      <div className="absolute inset-0 bg-gradient-to-b from-blue-950/50 via-slate-900/80 to-slate-950/95" />
 
-      {/* Blue tint overlay — darkens on hover */}
-      <div className="absolute inset-0 bg-gradient-to-b from-blue-950/60 via-slate-900/80 to-slate-900/95 group-hover:from-blue-950/70 group-hover:to-slate-900/98 transition-all duration-500" />
+      <div className="relative z-10 mt-auto flex flex-col p-6">
+        <div className="mb-1 text-sm font-semibold text-blue-300">{project.tagline}</div>
+        <h3 className="font-display mb-2 text-2xl font-extrabold tracking-tight text-white">{project.title}</h3>
+        <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-gray-300">{project.description}</p>
 
-      {/* Index number — top left */}
-      <div className="relative z-10 p-6 pb-0">
-        <span className="text-white/15 font-black text-3xl select-none">
-          0{index + 2}
-        </span>
-      </div>
+        <Metrics items={project.metrics} />
 
-      {/* Content — sits on top of image */}
-      <div className="relative z-10 flex flex-col flex-1 p-6 pt-3 justify-end">
-        <div className="text-blue-400 text-[10px] font-black uppercase tracking-widest mb-1">
-          {project.tagline}
-        </div>
-        <h3 className="text-xl font-black text-white mb-2">{project.title}</h3>
-        <p className="text-gray-300 text-xs leading-relaxed line-clamp-3 mb-4 flex-1">
-          {project.description}
-        </p>
-
-        {/* Tech */}
-        <div className="flex flex-wrap gap-1.5 mb-5">
-          {project.tech.map((t, i) => (
-            <span key={i} className="text-[9px] font-bold px-2.5 py-1 bg-blue-500/20 border border-blue-500/30 rounded-full text-blue-300 uppercase backdrop-blur-sm">
+        <div className="mb-5 flex flex-wrap gap-1.5">
+          {project.tech.map((t) => (
+            <span key={t} className="rounded-full border border-white/10 bg-black/30 px-2.5 py-1 text-xs font-medium text-gray-200 backdrop-blur-sm">
               {t}
             </span>
           ))}
         </div>
 
-        {/* Footer */}
         <div className="flex items-center justify-between">
-          <span className="text-xs text-blue-400 font-bold group-hover:underline underline-offset-2 transition-all">
+          <span className="text-sm font-semibold text-blue-300 transition-all group-hover:underline underline-offset-4">
             View details →
           </span>
           <div className="flex gap-2">
             {project.demo && project.demo !== "#" && (
-              <a href={project.demo} target="_blank" rel="noreferrer"
+              <a href={project.demo} target="_blank" rel="noreferrer" aria-label={`${project.title} live demo`}
                 onClick={(e) => e.stopPropagation()}
-                className="p-2 bg-black/30 hover:bg-black/50 backdrop-blur-sm rounded-lg text-gray-300 hover:text-white transition-all">
+                className="rounded-lg bg-black/30 p-2 text-gray-300 backdrop-blur-sm transition-all hover:bg-black/50 hover:text-white">
                 <FaExternalLinkAlt size={11} />
               </a>
             )}
-            <a href={project.github} target="_blank" rel="noreferrer"
+            <a href={project.github} target="_blank" rel="noreferrer" aria-label={`${project.title} on GitHub`}
               onClick={(e) => e.stopPropagation()}
-              className="p-2 bg-black/30 hover:bg-black/50 backdrop-blur-sm rounded-lg text-gray-300 hover:text-white transition-all">
+              className="rounded-lg bg-black/30 p-2 text-gray-300 backdrop-blur-sm transition-all hover:bg-black/50 hover:text-white">
               <FaGithub size={14} />
             </a>
           </div>
         </div>
       </div>
-
-      {/* Border glow on hover */}
-      <div className="absolute inset-0 border-2 border-transparent group-hover:border-blue-500/30 rounded-3xl pointer-events-none transition-all duration-500" />
+      <Spotlight />
     </motion.div>
   );
 }
@@ -310,35 +329,26 @@ export default function Projects() {
   const rest = projects.filter((p) => !p.featured);
 
   return (
-    <section id="projects" className="py-24 px-6 md:px-10 max-w-7xl mx-auto">
-      {/* Title */}
-      <div className="relative mb-16 flex flex-col items-center justify-center">
-        <motion.span
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 0.05 }}
-          className="absolute text-7xl md:text-9xl font-black text-white select-none tracking-[0.2em]"
-        >
-          WORKS
-        </motion.span>
+    <section id="projects" className="mx-auto max-w-7xl px-6 py-24 md:px-10">
+      <div className="mb-12 max-w-2xl">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="relative z-10 text-4xl md:text-5xl font-black text-white tracking-tighter"
+          viewport={{ once: true }}
+          className="font-display text-4xl font-extrabold tracking-tight text-white md:text-6xl"
         >
-          FEATURED{" "}
-          <span className="text-blue-500 font-serif italic font-light">Projects</span>
+          Things I&rsquo;ve built and shipped
         </motion.h2>
-        <p className="mt-3 text-gray-500 text-sm">Click any card to explore details</p>
+        <p className="mt-4 text-gray-400">
+          Deployed projects with tests, guardrails, and design decisions I can defend. Click a card for the full breakdown.
+        </p>
       </div>
 
-      {/* Bento layout */}
       <div className="flex flex-col gap-6">
-        {featured && (
-          <FeaturedCard project={featured} onClick={() => setSelected(featured)} />
-        )}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {featured && <FeaturedCard project={featured} onClick={() => setSelected(featured)} />}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {rest.map((project, i) => (
-            <ProjectCard key={i} project={project} index={i} onClick={() => setSelected(project)} />
+            <ProjectCard key={project.title} project={project} index={i} onClick={() => setSelected(project)} />
           ))}
         </div>
       </div>

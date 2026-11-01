@@ -1,21 +1,8 @@
-"use client";
-
-import { motion } from "framer-motion";
-
 export default function SectionDivider() {
   return (
-
-    <motion.div
-      initial={{ width: 0 }}
-      whileInView={{ width: "60%" }}
-      transition={{ duration: 0.8 }}
-      viewport={{ once: true }}
-      style={{
-        height: "2px",
-        background: "linear-gradient(to right,#38bdf8,transparent)",
-        margin: "80px auto"
-      }}
+    <div
+      aria-hidden="true"
+      className="mx-auto my-4 h-px w-full max-w-5xl bg-gradient-to-r from-transparent via-white/10 to-transparent"
     />
-
   );
 }

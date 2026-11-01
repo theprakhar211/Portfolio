@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, MotionConfig } from "framer-motion";
 import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";
 import Skills from "@/components/Skills";
@@ -13,7 +13,8 @@ import Hobbies from "@/components/Hobbies";
 
 export default function Home() {
   return (
-    <motion.main
+    <MotionConfig reducedMotion="user">
+    <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
@@ -32,6 +33,7 @@ export default function Home() {
       <SectionDivider />
       <Contact />
       <Footer />
-    </motion.main>
+    </motion.div>
+    </MotionConfig>
   );
 }
