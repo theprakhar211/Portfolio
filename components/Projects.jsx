@@ -1,77 +1,10 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { FaGithub, FaExternalLinkAlt, FaTimes } from "react-icons/fa";
+import { projects } from "@/data/projects";
+import ScorerDemo from "@/components/ScorerDemo";
 
-const projects = [
-  {
-    title: "Qualif-AI",
-    tagline: "AI Interview Simulator",
-    description:
-      "Voice-first mock interview platform with two modes — Quick Practice and a structured 4-phase Complete Interview using your actual resume. Answers are evaluated by a blended scoring system: 72% Llama 3.3 70B + 28% deterministic checks for keyword coverage and answer structure. Tracks skill mastery across 35+ skills with exponential weighting, benchmarks your answers against AI-generated ideal responses, and deduplicates questions across sessions via hash fingerprinting. Backed by 248 automated tests at 81% coverage via GitHub Actions.",
-    tech: ["FastAPI", "React", "MongoDB", "Groq / LLaMA", "JWT", "GitHub Actions"],
-    github: "https://github.com/theprakhar211/qualif-ai",
-    demo: "https://qualif-smart-ai.vercel.app/",
-    image: "/projects/qualifai.png",
-    highlights: [
-      "Blended scoring: 72% LLM + 28% deterministic (keyword coverage, structure, depth)",
-      "Skill graph — 35+ skills across 7 categories with exponential session weighting",
-      "Answer benchmarking against permanently cached ideal answers per question",
-      "Question deduplication via 8-char hash fingerprinting — fresh questions for 25+ sessions",
-      "5-layer prompt-injection defence: regex sanitisation, XML delimiters, system rules, score floor, LLM classifier",
-      "248 automated tests at 81% coverage via GitHub Actions — caught 5 real production bugs",
-    ],
-    metrics: [
-      { value: "248", label: "tests" },
-      { value: "81%", label: "coverage" },
-      { value: "5", label: "defence layers" },
-    ],
-    featured: true,
-  },
-  {
-    title: "CodeQuest",
-    tagline: "Programming Learning Game",
-    description:
-      "Interactive programming learning game designed to teach coding concepts through quests. Built with a custom logic engine that evaluates player solutions in real-time inside the Godot engine.",
-    tech: ["Godot", "GDScript", "Game Dev"],
-    github: "https://github.com/theprakhar211/CodeQuest",
-    demo: null,
-    image: "/projects/codequest.png",
-    highlights: [
-      "Custom logic engine for real-time solution evaluation",
-      "Quest-based learning progression system",
-      "Built entirely in Godot with GDScript",
-    ],
-    metrics: [
-      { value: "Godot", label: "2D RPG" },
-      { value: "Python", label: "code sandbox" },
-    ],
-    featured: false,
-  },
-  {
-    title: "agAInst",
-    tagline: "AI Debate Arena",
-    description:
-      "Full-stack AI debate platform where you argue any topic against an AI that genuinely pushes back. Three role-separated LLM agents — Debater, Judge, and Analyser — run in a multi-agent pipeline. The Analyser fires in parallel with the Debater via Promise.all for zero added latency. Includes a 2-player local mode with screen-blur turn handoff, Side Flip mode, fallacy detection, and PDF export.",
-    tech: ["Next.js", "FastAPI", "Groq / LLaMA", "Framer Motion", "Pydantic"],
-    github: "https://github.com/theprakhar211/against-public",
-    demo: "https://against-debate.vercel.app/",
-    image: "/projects/against.png",
-    highlights: [
-      "3 role-separated LLM agents — Debater, Judge, Analyser — in one multi-agent pipeline",
-      "Analyser fires in parallel with Debater via Promise.all — zero added latency",
-      "Judge returns structured JSON scores with automated retry logic on parse failure",
-      "Stateless API — full conversation history sent per request, no server-side session state",
-      "2-player local mode with screen-blur handoff between turns",
-      "Side Flip mode, fallacy detection, verdict caching, and PDF transcript export",
-    ],
-    metrics: [
-      { value: "3", label: "LLM agents" },
-      { value: "Realtime", label: "PvP mode" },
-    ],
-    featured: false,
-  },
-];
 
 function spot(e) {
   const r = e.currentTarget.getBoundingClientRect();
@@ -105,45 +38,96 @@ function Spotlight() {
   );
 }
 
-function Modal({ project, onClose }) {
-  // Lock body scroll while modal is open
+function Flow({ steps }) {
+  return (
+    <div className="mb-6">
+      <p className="mb-2 text-sm font-semibold text-white">How it works</p>
+      <ol className="flex flex-wrap items-center gap-x-2 gap-y-2">
+        {steps.map((step, i) => (
+          <li key={step} className="flex items-center gap-2">
+            <span className="rounded-lg border border-blue-400/30 bg-blue-500/10 px-3 py-1.5 text-xs font-medium text-blue-100">
+              {step}
+            </span>
+            {i < steps.length - 1 && <span aria-hidden="true" className="text-gray-400">→</span>}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+const FOCUSABLE = 'a[href], button:not([disabled]), textarea, input, [tabindex]:not([tabindex="-1"])';
+
+function Modal({ project, prev, next, onClose, onSelect, onStep }) {
+  const dialogRef = useRef(null);
+  const scrollRef = useRef(null);
+  const closeRef = useRef(null);
+
+  // Lock body scroll while open
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = ""; };
   }, []);
 
-  // Close on Escape key
+  // Move focus into the dialog, and give it back to the opener on close
   useEffect(() => {
-    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    const opener = document.activeElement;
+    closeRef.current?.focus();
+    return () => { if (opener && opener.focus) opener.focus(); };
+  }, []);
+
+  // Keyboard: Esc closes, arrows browse projects, Tab stays inside the dialog
+  useEffect(() => {
+    const onKey = (e) => {
+      const typing = ["TEXTAREA", "INPUT"].includes(e.target?.tagName);
+      if (e.key === "Escape") onClose();
+      else if (!typing && e.key === "ArrowRight") onStep(1);
+      else if (!typing && e.key === "ArrowLeft") onStep(-1);
+      else if (e.key === "Tab" && dialogRef.current) {
+        const items = [...dialogRef.current.querySelectorAll(FOCUSABLE)];
+        if (!items.length) return;
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+  }, [onClose, onStep]);
+
+  // Back to the top when switching projects
+  useEffect(() => { scrollRef.current?.scrollTo(0, 0); }, [project.slug]);
 
   return (
     <AnimatePresence>
       <motion.div
         className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-6"
-        style={{ paddingTop: "72px" }} // clears the navbar on all screen sizes
+        style={{ paddingTop: "72px" }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
         <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={onClose} />
         <motion.div
+          ref={dialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="project-title"
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ type: "spring", stiffness: 300, damping: 28 }}
           className="relative z-10 w-full max-w-2xl bg-slate-900 border border-white/10 rounded-3xl shadow-2xl flex flex-col"
-          style={{ maxHeight: "calc(100vh - 88px)" }} // viewport minus navbar + gap
+          style={{ maxHeight: "calc(100vh - 88px)" }}
         >
-          {/* Image header — fixed, never scrolls */}
           <div
             className="w-full h-44 bg-cover bg-center relative rounded-t-3xl shrink-0 overflow-hidden"
             style={{ backgroundImage: `url(${project.image})` }}
           >
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-900" />
             <button
+              ref={closeRef}
               onClick={onClose}
               aria-label="Close"
               className="absolute top-4 right-4 p-2 bg-black/50 backdrop-blur-md rounded-full text-white hover:bg-white/10 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
@@ -152,40 +136,50 @@ function Modal({ project, onClose }) {
             </button>
           </div>
 
-          {/* Scrollable content */}
-          <div className="overflow-y-auto flex-1 p-8 -mt-4">
-            <div className="mb-2 text-blue-400 text-sm font-semibold">
-              {project.tagline}
-            </div>
-            <h3 className="font-display text-3xl font-extrabold text-white mb-3">{project.title}</h3>
+          <div ref={scrollRef} className="overflow-y-auto flex-1 p-8 -mt-4">
+            <div className="mb-2 text-blue-400 text-sm font-semibold">{project.tagline}</div>
+            <h3 id="project-title" className="font-display text-3xl font-extrabold text-white mb-3">{project.title}</h3>
             <Metrics items={project.metrics} />
             <p className="text-gray-400 text-sm leading-relaxed mb-6">{project.description}</p>
+
+            <Flow steps={project.flow} />
+            {project.slug === "qualif-ai" && <ScorerDemo />}
+
             <ul className="space-y-2 mb-6">
               {project.highlights.map((h, i) => (
                 <li key={i} className="flex items-start gap-3 text-sm text-gray-300">
-                  <span className="mt-1 w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
+                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
                   {h}
                 </li>
               ))}
             </ul>
             <div className="flex flex-wrap gap-2 mb-8">
-              {project.tech.map((t, i) => (
-                <span key={i} className="text-xs font-medium px-3 py-1 bg-blue-500/15 border border-blue-500/30 rounded-full text-blue-200">
+              {project.tech.map((t) => (
+                <span key={t} className="text-xs font-medium px-3 py-1 bg-blue-500/15 border border-blue-500/30 rounded-full text-blue-200">
                   {t}
                 </span>
               ))}
             </div>
-            <div className="flex gap-3 pb-2">
+            <div className="flex gap-3 mb-6">
               {project.demo && project.demo !== "#" && (
                 <a href={project.demo} target="_blank" rel="noreferrer"
                   className="flex-1 flex items-center justify-center gap-2 py-3 bg-blue-600 hover:bg-blue-500 text-white text-sm font-black rounded-xl transition-all active:scale-95">
-                  Live Demo <FaExternalLinkAlt size={11} />
+                  Live demo <FaExternalLinkAlt size={11} />
                 </a>
               )}
               <a href={project.github} target="_blank" rel="noreferrer"
                 className="flex items-center gap-2 px-5 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm font-bold rounded-xl transition-all">
                 <FaGithub size={16} /> GitHub
               </a>
+            </div>
+
+            <div className="flex items-center justify-between gap-3 border-t border-white/10 pt-5 text-sm">
+              <button type="button" onClick={() => onSelect(prev)} className="text-left text-gray-300 hover:text-white">
+                <span className="block text-xs text-gray-400">← Previous</span>{prev.title}
+              </button>
+              <button type="button" onClick={() => onSelect(next)} className="text-right text-gray-300 hover:text-white">
+                <span className="block text-xs text-gray-400">Next →</span>{next.title}
+              </button>
             </div>
           </div>
         </motion.div>
@@ -328,6 +322,35 @@ export default function Projects() {
   const featured = projects.find((p) => p.featured);
   const rest = projects.filter((p) => !p.featured);
 
+  // Keep the URL hash in step with the open project so it can be shared
+  const select = useCallback((p) => {
+    setSelected(p);
+    window.history.replaceState(null, "", p ? `#project-${p.slug}` : "#projects");
+  }, []);
+
+  const step = useCallback((dir) => {
+    if (!selected) return;
+    const i = projects.indexOf(selected);
+    select(projects[(i + dir + projects.length) % projects.length]);
+  }, [selected, select]);
+
+  // Open from a deep link or from the command menu (#project-<slug>)
+  useEffect(() => {
+    const sync = () => {
+      const m = window.location.hash.match(/^#project-(.+)$/);
+      const p = m && projects.find((x) => x.slug === m[1]);
+      if (p) {
+        setSelected(p);
+        document.getElementById("projects")?.scrollIntoView();
+      }
+    };
+    const t = setTimeout(sync, 0);
+    window.addEventListener("hashchange", sync);
+    return () => { clearTimeout(t); window.removeEventListener("hashchange", sync); };
+  }, []);
+
+  const idx = selected ? projects.indexOf(selected) : -1;
+
   return (
     <section id="projects" className="mx-auto max-w-7xl px-6 py-24 md:px-10">
       <div className="mb-12 max-w-2xl">
@@ -345,15 +368,24 @@ export default function Projects() {
       </div>
 
       <div className="flex flex-col gap-6">
-        {featured && <FeaturedCard project={featured} onClick={() => setSelected(featured)} />}
+        {featured && <FeaturedCard project={featured} onClick={() => select(featured)} />}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {rest.map((project, i) => (
-            <ProjectCard key={project.title} project={project} index={i} onClick={() => setSelected(project)} />
+            <ProjectCard key={project.title} project={project} index={i} onClick={() => select(project)} />
           ))}
         </div>
       </div>
 
-      {selected && <Modal project={selected} onClose={() => setSelected(null)} />}
+      {selected && (
+        <Modal
+          project={selected}
+          prev={projects[(idx - 1 + projects.length) % projects.length]}
+          next={projects[(idx + 1) % projects.length]}
+          onClose={() => select(null)}
+          onSelect={select}
+          onStep={step}
+        />
+      )}
     </section>
   );
 }

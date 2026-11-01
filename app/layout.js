@@ -3,6 +3,7 @@ import "@fontsource-variable/hanken-grotesk";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import BackgroundWrapper from "@/components/BackgroundWrapper";
+import CommandPalette from "@/components/CommandPalette";
 
 const BASE_URL = "https://prakhar-sharma.vercel.app";
 
@@ -42,6 +43,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Navbar />
+        <CommandPalette />
         <BackgroundWrapper>
           <main>{children}</main>
         </BackgroundWrapper>

@@ -103,6 +103,16 @@ export default function Navbar() {
           })}
         </ul>
 
+        <button
+          type="button"
+          onClick={() => window.dispatchEvent(new Event("open-palette"))}
+          aria-label="Open command menu"
+          className="flex items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-sm text-gray-400 transition-colors hover:border-blue-400/50 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+        >
+          Jump to
+          <kbd className="rounded border border-white/15 px-1.5 text-[11px] font-semibold text-gray-300">Ctrl K</kbd>
+        </button>
+
         <a
           href="/prakhar-resume.pdf"
           target="_blank"
