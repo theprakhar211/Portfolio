@@ -10,7 +10,7 @@ export const projects = [
     tech: ["FastAPI", "React", "MongoDB", "Groq / LLaMA", "JWT", "GitHub Actions"],
     github: "https://github.com/theprakhar211/qualif-ai",
     demo: "https://qualif-smart-ai.vercel.app/",
-    image: "/projects/qualifai.png",
+    image: "/projects/qualifai.webp",
     highlights: [
       "Blended scoring: 72% LLM + 28% deterministic (keyword coverage, structure, depth)",
       "Skill graph — 35+ skills across 7 categories with exponential session weighting",
@@ -36,7 +36,7 @@ export const projects = [
     tech: ["Godot", "GDScript", "Game Dev"],
     github: "https://github.com/theprakhar211/CodeQuest",
     demo: null,
-    image: "/projects/codequest.png",
+    image: "/projects/codequest.webp",
     highlights: [
       "Custom logic engine for real-time solution evaluation",
       "Quest-based learning progression system",
@@ -58,7 +58,7 @@ export const projects = [
     tech: ["Next.js", "FastAPI", "Groq / LLaMA", "Framer Motion", "Pydantic"],
     github: "https://github.com/theprakhar211/against-public",
     demo: "https://against-debate.vercel.app/",
-    image: "/projects/against.png",
+    image: "/projects/against.webp",
     highlights: [
       "3 role-separated LLM agents — Debater, Judge, Analyser — in one multi-agent pipeline",
       "Analyser fires in parallel with Debater via Promise.all — zero added latency",

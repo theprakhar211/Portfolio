@@ -124,10 +124,13 @@ function Modal({ project, prev, next, onClose, onSelect, onStep }) {
         >
           <div className="relative h-52 w-full shrink-0 overflow-hidden rounded-t-3xl bg-slate-950">
             {/* Blurred copy fills the sides so the full image can be shown uncropped */}
-            <div
+            <Image
+              src={project.image}
+              alt=""
+              fill
               aria-hidden="true"
-              className="absolute inset-0 scale-125 bg-cover bg-center opacity-50 blur-2xl"
-              style={{ backgroundImage: `url(${project.image})` }}
+              sizes="(max-width: 672px) 100vw, 672px"
+              className="scale-125 object-cover opacity-50 blur-2xl"
             />
             <Image
               src={project.image}
@@ -216,9 +219,12 @@ function FeaturedCard({ project, onClick }) {
       className="group relative grid min-h-[360px] w-full cursor-pointer grid-cols-1 overflow-hidden rounded-3xl border border-white/10 bg-slate-900/80 shadow-2xl transition-colors duration-300 hover:border-blue-400/40 md:grid-cols-[1.05fr_1fr]"
     >
       <div className="relative min-h-[240px] overflow-hidden md:min-h-full">
-        <div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-          style={{ backgroundImage: `url(${project.image})` }}
+        <Image
+          src={project.image}
+          alt={`${project.title} preview`}
+          fill
+          sizes="(max-width: 768px) 100vw, 560px"
+          className="object-cover transition-transform duration-700 group-hover:scale-105"
         />
         <div className="absolute inset-0 hidden bg-gradient-to-r from-transparent to-slate-900 md:block" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-900 md:hidden" />
@@ -281,9 +287,12 @@ function ProjectCard({ project, index, onClick }) {
       aria-label={`Open details for ${project.title}`}
       className="group relative flex min-h-[340px] cursor-pointer flex-col overflow-hidden rounded-3xl border border-white/10 shadow-xl transition-colors duration-300 hover:border-blue-400/40"
     >
-      <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-        style={{ backgroundImage: `url(${project.image})` }}
+      <Image
+        src={project.image}
+        alt={`${project.title} preview`}
+        fill
+        sizes="(max-width: 768px) 100vw, 540px"
+        className="object-cover transition-transform duration-700 group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-blue-950/50 via-slate-900/80 to-slate-950/95" />
 
