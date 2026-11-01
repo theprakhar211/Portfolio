@@ -48,7 +48,7 @@ export default function BeyondTheCode() {
     className="relative z-10 flex flex-col items-center"
   >
     <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter flex items-center gap-3">
-      <span className="text-blue-500">//</span> 
+      <span className="text-blue-500">{"//"}</span>{" "}
       BEYOND THE <span className="text-blue-500">CODE</span>
     </h2>
     
@@ -75,7 +75,7 @@ export default function BeyondTheCode() {
           <div className="relative z-10">
             <span className="text-[10px] text-blue-400 font-bold uppercase tracking-[0.3em] mb-4 block underline underline-offset-8">Featured Verse</span>
             <p className="text-xl italic text-gray-200 leading-relaxed font-serif">
-              "{poems[1].excerpt}"
+              &ldquo;{poems[1].excerpt}&rdquo;
             </p>
             <div className="mt-6 flex items-center gap-2 text-xs text-blue-400 group-hover:text-white transition-colors">
                <FaFeather className="animate-bounce" />
@@ -184,7 +184,7 @@ export default function BeyondTheCode() {
                         
                         <div className="max-h-0 opacity-0 overflow-hidden group-hover:max-h-32 group-hover:opacity-100 transition-all duration-500 ease-in-out w-full">
                           <p className="text-gray-300 text-[10px] italic font-serif leading-relaxed mb-3 line-clamp-2">
-                            "{poem.excerpt}"
+                            &ldquo;{poem.excerpt}&rdquo;
                           </p>
                           <a 
                             href={poem.link}

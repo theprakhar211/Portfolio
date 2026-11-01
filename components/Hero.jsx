@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, animate, useInView, useReducedMotion } from "framer-motion";
+import { motion, animate, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 
@@ -10,13 +10,6 @@ const ROLES = [
   "LLM Evals & Guardrails",
   "Game Developer",
   "Poet & Engineer",
-];
-
-const STATS = [
-  { value: 248, label: "automated tests" },
-  { value: 81, suffix: "%", label: "coverage on Qualif-AI" },
-  { value: 5, label: "layers of injection defence" },
-  { value: 3, label: "deployed AI systems" },
 ];
 
 // Sample answers cycled in the score card (illustrative, not real user data)
@@ -160,19 +153,6 @@ function ScoreCard() {
   );
 }
 
-function Stat({ value, suffix = "", label }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
-  return (
-    <div ref={ref} className="bg-slate-950/70 px-5 py-5 backdrop-blur-sm">
-      <div className="font-display text-3xl font-extrabold tracking-tight text-amber-400 md:text-4xl">
-        <AnimatedNumber value={inView ? value : 0} />{suffix}
-      </div>
-      <div className="mt-1 text-sm text-gray-400">{label}</div>
-    </div>
-  );
-}
-
 export default function Hero() {
   const reduce = useReducedMotion();
   const role = useTypewriter(ROLES, reduce);
@@ -272,16 +252,6 @@ export default function Hero() {
         <ScoreCard />
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8, duration: 0.6 }}
-        className="mx-auto mt-16 grid w-full max-w-7xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-4"
-      >
-        {STATS.map((s) => (
-          <Stat key={s.label} {...s} />
-        ))}
-      </motion.div>
     </section>
   );
 }

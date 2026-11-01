@@ -1,21 +1,27 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useSyncExternalStore } from "react";
 import ParticleField from "@/components/ParticleField";
 
 export default function BackgroundWrapper({ children }) {
   const [mousePos, setMousePos] = useState({ x: -9999, y: -9999 });
-  const [isMobile, setIsMobile] = useState(false);
+  // Disable the spotlight on touch devices: there is no cursor to track
+  const isMobile = useSyncExternalStore(
+    (notify) => {
+      const mq = window.matchMedia("(pointer: coarse)");
+      mq.addEventListener("change", notify);
+      return () => mq.removeEventListener("change", notify);
+    },
+    () => window.matchMedia("(pointer: coarse)").matches,
+    () => false
+  );
 
   useEffect(() => {
-    // Disable spotlight on touch devices — no cursor to track
-    setIsMobile(window.matchMedia("(pointer: coarse)").matches);
-
     const handleMouseMove = (e) => {
       setMousePos({ x: e.clientX, y: e.clientY });
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove); // fixed typo
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   return (

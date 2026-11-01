@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { FaGithub, FaExternalLinkAlt, FaTimes } from "react-icons/fa";
@@ -121,11 +122,21 @@ function Modal({ project, prev, next, onClose, onSelect, onStep }) {
           className="relative z-10 w-full max-w-2xl bg-slate-900 border border-white/10 rounded-3xl shadow-2xl flex flex-col"
           style={{ maxHeight: "calc(100vh - 88px)" }}
         >
-          <div
-            className="w-full h-44 bg-cover bg-center relative rounded-t-3xl shrink-0 overflow-hidden"
-            style={{ backgroundImage: `url(${project.image})` }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-900" />
+          <div className="relative h-52 w-full shrink-0 overflow-hidden rounded-t-3xl bg-slate-950">
+            {/* Blurred copy fills the sides so the full image can be shown uncropped */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 scale-125 bg-cover bg-center opacity-50 blur-2xl"
+              style={{ backgroundImage: `url(${project.image})` }}
+            />
+            <Image
+              src={project.image}
+              alt={`${project.title} cover`}
+              fill
+              sizes="(max-width: 672px) 100vw, 672px"
+              className="object-contain"
+            />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-b from-transparent to-slate-900" />
             <button
               ref={closeRef}
               onClick={onClose}

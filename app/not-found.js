@@ -40,8 +40,8 @@ export default function NotFound() {
             <span className="text-blue-400 font-serif italic font-light">void</span>
           </h1>
           <p className="text-gray-400 text-base max-w-md leading-relaxed">
-            This page doesn't exist — or maybe it did once and got refactored out of existence.
-            Either way, there's nothing here.
+            This page doesn&apos;t exist — or maybe it did once and got refactored out of existence.
+            Either way, there&apos;s nothing here.
           </p>
         </div>
 

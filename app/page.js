@@ -7,7 +7,6 @@ import Skills from "@/components/Skills";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import About from "@/components/About";
-import ScrollProgress from "@/components/ScrollProgress";
 import SectionDivider from "@/components/SectionDivider";
 import Hobbies from "@/components/Hobbies";
 
@@ -20,7 +19,6 @@ export default function Home() {
       transition={{ duration: 0.5, ease: "easeOut" }}
       style={{ maxWidth: "1100px", margin: "0 auto", padding: "20px" }}
     >
-      <ScrollProgress />
       <Hero />
       <SectionDivider />
       <About />

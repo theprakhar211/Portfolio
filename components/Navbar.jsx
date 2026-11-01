@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { FaFileDownload } from "react-icons/fa";
+import ScrollProgress from "@/components/ScrollProgress";
 
 const NAV_LINKS = [
   { label: "Home",     href: "#home" },
@@ -15,9 +16,6 @@ export default function Navbar() {
   const [scrolled,       setScrolled]       = useState(false);
   const [activeSection,  setActiveSection]  = useState("");
   const [menuOpen,       setMenuOpen]       = useState(false);
-  const [mounted,        setMounted]        = useState(false);
-
-  useEffect(() => { setMounted(true); }, []);
 
   // Scroll shadow
   useEffect(() => {
@@ -94,7 +92,7 @@ export default function Navbar() {
                 >
                   {label}
                   {/* Active underline dot */}
-                  {mounted && isActive && (
+                  {isActive && (
                     <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-blue-400" />
                   )}
                 </a>
@@ -164,6 +162,7 @@ export default function Navbar() {
           </a>
         </div>
       )}
+      <ScrollProgress />
     </nav>
   );
 }

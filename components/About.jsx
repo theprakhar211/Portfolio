@@ -87,7 +87,7 @@ export default function About() {
                 ))}
               </div>
               <div className="relative z-10 mt-8 pt-6 border-t border-white/5 italic text-gray-400 text-xs leading-relaxed">
-                "I view a compiler as a stage and a codebase as a stanza. My goal is to engineer intelligence that feels inherently human."
+                &ldquo;I view a compiler as a stage and a codebase as a stanza. My goal is to engineer intelligence that feels inherently human.&rdquo;
               </div>
             </div>
           </div>
@@ -104,7 +104,7 @@ export default function About() {
               Based in the intersection of{" "}
               <span className="text-white font-medium">Artificial Intelligence</span> and
               expressive design. I specialize in building autonomous systems that
-              don't just solve problems — they create meaningful interactions.
+              don&apos;t just solve problems — they create meaningful interactions.
             </p>
           </div>
 
