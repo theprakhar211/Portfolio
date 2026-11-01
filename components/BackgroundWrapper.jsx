@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import ParticleField from "@/components/ParticleField";
 
 export default function BackgroundWrapper({ children }) {
   const [mousePos, setMousePos] = useState({ x: -9999, y: -9999 });
@@ -33,6 +34,9 @@ export default function BackgroundWrapper({ children }) {
       {/* Static ambient glows */}
       <div className="fixed top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none z-10" />
       <div className="fixed bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none z-10" />
+
+      {/* Particle network — sits above the glows, below the spotlight and content */}
+      <ParticleField />
 
       {/* Content */}
       <div className="relative z-40">
