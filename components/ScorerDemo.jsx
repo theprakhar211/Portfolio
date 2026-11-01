@@ -29,7 +29,7 @@ export default function ScorerDemo() {
     <div className="mb-6 rounded-2xl border border-white/10 bg-black/20 p-4">
       <p className="mb-1 text-sm font-semibold text-white">Try the scorer</p>
       <p className="mb-3 text-xs text-gray-400">
-        This runs the deterministic checks in your browser. The real app blends them 28/72 with an LLM score on the server.
+        This runs the deterministic checks in your browser. The real app blends them with an LLM score on the server, weighted by interview phase.
       </p>
       <p className="mb-2 text-sm text-gray-300">Question: Explain how REST differs from GraphQL.</p>
       <textarea

@@ -147,7 +147,7 @@ function ScoreCard() {
       </div>
 
       <p className="mt-5 border-t border-white/10 pt-4 text-xs text-gray-400">
-        72% LLM judgement, 28% deterministic checks. Illustrative values.
+        LLM judgement blended with deterministic checks. Illustrative values.
       </p>
     </motion.div>
   );
