@@ -6,16 +6,18 @@ import BackgroundWrapper from "@/components/BackgroundWrapper";
 import CommandPalette from "@/components/CommandPalette";
 
 const BASE_URL = "https://prakhar-sharma.vercel.app";
+const DESCRIPTION =
+  "Portfolio of Prakhar Sharma, a final-year CSE-AI student from Bhopal focused on applied AI and full-stack engineering: LLM apps, RAG, FastAPI, and React/Next.js.";
 
 export const metadata = {
   title: "Prakhar Sharma — AI & Full-Stack Developer | CSE-AI Student",
   description:
-    "Portfolio of Prakhar Sharma, a final-year CSE-AI student from Bhopal specialising in NLP, Generative AI, FastAPI, and React. Building intelligent systems and full-stack applications.",
+    DESCRIPTION,
   metadataBase: new URL(BASE_URL),
   openGraph: {
     title: "Prakhar Sharma — AI & Full-Stack Developer | CSE-AI Student",
     description:
-      "Portfolio of Prakhar Sharma, a final-year CSE-AI student from Bhopal specialising in NLP, Generative AI, FastAPI, and React. Building intelligent systems and full-stack applications.",
+      DESCRIPTION,
     url: BASE_URL,
     siteName: "Prakhar Sharma",
     images: [
@@ -33,7 +35,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Prakhar Sharma — AI & Full-Stack Developer | CSE-AI Student",
     description:
-      "Portfolio of Prakhar Sharma, a final-year CSE-AI student from Bhopal specialising in NLP, Generative AI, FastAPI, and React. Building intelligent systems and full-stack applications.",
+      DESCRIPTION,
     images: [`${BASE_URL}/screenshot.png`],
   },
 };

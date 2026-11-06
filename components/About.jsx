@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   FaMusic, FaBookOpen, FaPenNib,
-  FaHammer, FaMapMarkerAlt, FaBriefcase, FaExternalLinkAlt,
+  FaHammer, FaMapMarkerAlt, FaBriefcase, FaCloud, FaExternalLinkAlt,
 } from "react-icons/fa";
 
 const signals = [
@@ -12,6 +12,11 @@ const signals = [
     icon: <FaHammer />,
     label: "Currently Building",
     detail: "CodeQuest: Syntax Scrolls — An interactive code exploration game blending compiler theory with RPG elements. (Launching Soon)",
+  },
+  {
+    icon: <FaCloud />,
+    label: "Internship",
+    detail: "AWS & DevOps Intern (Virtual), EWB Edutech Pvt. Ltd. (via National Internship Portal), Oct 2026 – Present. Completing a mentor-led AWS and DevOps programme with weekly assessments, assigned tasks and a final mini project.",
   },
   {
     icon: <FaBriefcase />,

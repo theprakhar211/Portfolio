@@ -1,83 +1,155 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { FaPython, FaJs, FaReact, FaGithub, FaNodeJs } from "react-icons/fa";
 import {
-  FaJava, FaPython, FaJs, FaReact, FaNodeJs,
-  FaGitAlt, FaGithub,
-} from "react-icons/fa";
-import {
-  SiCplusplus, SiNextdotjs, SiFastapi,
-  SiHtml5, SiCss, SiMongodb, SiGooglecloud,
-  SiSalesforce, SiGodotengine, SiJsonwebtokens,
+  SiCplusplus, SiNextdotjs, SiFastapi, SiMongodb, SiGodotengine,
+  SiJsonwebtokens, SiDocker, SiGithubactions, SiPytest, SiSentry,
+  SiVercel, SiRender, SiSupabase, SiTailwindcss, SiHtml5, SiSalesforce,
 } from "react-icons/si";
-import { TbBrain, TbBrandAzure } from "react-icons/tb";
+import {
+  TbBrain, TbMicrophone, TbVectorTriangle, TbShieldCheck, TbChecklist,
+  TbCpu, TbSparkles, TbBroadcast, TbApi, TbPlugConnected, TbWriting, TbTestPipe, TbGauge, TbDatabase,
+} from "react-icons/tb";
 
+// Projects that prove a skill. Entries with a slug link to the project (the Projects
+// section opens its modal from #project-<slug>). Entries without a slug are plain text.
+const P = {
+  qualif:    { label: "Qualif-AI", slug: "qualif-ai" },
+  against:   { label: "agAInst",   slug: "against" },
+  documind:  { label: "DocuMind",  slug: "documind" },
+  codequest: { label: "CodeQuest", slug: "codequest" },
+  mafia:     { label: "Mafia Web" },
+  site:      { label: "This portfolio" },
+};
+
+// Groups match the Technical Skills lines on the resume.
+// Self-rated levels (Core / Proficient / Familiar) were removed: the "Used in" links are the
+// evidence. A skill with an empty `used` list has no project proof yet.
 const categories = [
   {
     title: "Languages",
     color: "blue",
     skills: [
-      { name: "Python",       icon: <FaPython />,    level: "Daily driver" },
-      { name: "JavaScript",   icon: <FaJs />,        level: "Daily driver" },
-      { name: "C++",          icon: <SiCplusplus />, level: "Proficient" },
-      { name: "Java",         icon: <FaJava />,      level: "Proficient" },
-      { name: "GDScript",     icon: <SiGodotengine />, level: "Familiar" },
-      { name: "HTML / CSS",   icon: <SiCss />,           level: "Daily driver" },
+      { name: "Python",     icon: <FaPython />, used: [P.qualif, P.against, P.documind, P.codequest] },
+      { name: "JavaScript", icon: <FaJs />, used: [P.qualif, P.against, P.documind] },
+      { name: "C++",        icon: <SiCplusplus />,   used: [] },
+      { name: "GDScript",   icon: <SiGodotengine />,     used: [P.codequest] },
     ],
   },
   {
-    title: "Frameworks & Databases",
+    title: "AI / ML",
+    color: "violet",
+    skills: [
+      { name: "Generative AI (LLM apps)",    icon: <TbSparkles />,       used: [P.qualif, P.against, P.documind] },
+      { name: "LLM integration (Groq)",        icon: <TbBrain />,          used: [P.qualif, P.against, P.documind] },
+      { name: "RAG",                           icon: <TbVectorTriangle />, used: [P.documind] },
+      { name: "FastEmbed (ONNX)",              icon: <TbCpu />,            used: [P.documind] },
+      { name: "Prompt Engineering",            icon: <TbWriting />,        used: [P.against] },
+      { name: "Prompt-Injection Defence",      icon: <TbShieldCheck />,    used: [P.qualif, P.against] },
+      { name: "LLM Evaluation",                icon: <TbChecklist />,      used: [P.documind] },
+      { name: "Speech-to-Text (Web Speech API)", icon: <TbMicrophone />, used: [P.qualif] },
+    ],
+  },
+  {
+    title: "Backend",
     color: "indigo",
     skills: [
-      { name: "FastAPI",  icon: <SiFastapi />,   level: "Daily driver" },
-      { name: "React",    icon: <FaReact />,     level: "Daily driver" },
-      { name: "Next.js",  icon: <SiNextdotjs />, level: "Proficient" },
-      { name: "Node.js",  icon: <FaNodeJs />,    level: "Proficient" },
-      { name: "MongoDB",  icon: <SiMongodb />,   level: "Proficient" },
-      { name: "JWT",      icon: <SiJsonwebtokens />, level: "Familiar" },
+      { name: "FastAPI",                 icon: <SiFastapi />, used: [P.qualif, P.against, P.documind, P.mafia] },
+      { name: "REST APIs",               icon: <TbApi />,             used: [P.qualif, P.against, P.documind] },
+      { name: "WebSockets",              icon: <TbPlugConnected />,   used: [P.mafia] },
+      { name: "Server-Sent Events",      icon: <TbBroadcast />,       used: [P.documind] },
+      { name: "JWT Auth",                icon: <SiJsonwebtokens />, used: [P.qualif] },
+      { name: "slowapi (rate limiting)", icon: <TbGauge />,           used: [P.against] },
     ],
   },
   {
-    title: "AI & Cloud",
+    title: "Frontend & Game Dev",
     color: "sky",
     skills: [
-      { name: "NLP",             icon: <TbBrain />,          level: "Proficient" },
-      { name: "Generative AI",   icon: <TbBrain />,          level: "Proficient" },
-      { name: "Speech-to-Text",  icon: <TbBrain />,          level: "Familiar" },
-      { name: "Google Cloud",    icon: <SiGooglecloud />,    level: "Familiar" },
-      { name: "Microsoft Azure", icon: <TbBrandAzure />, level: "Familiar" },
+      { name: "React",        icon: <FaReact />, used: [P.qualif] },
+      { name: "Next.js",      icon: <SiNextdotjs />,   used: [P.against, P.documind, P.mafia, P.site] },
+      { name: "Tailwind CSS", icon: <SiTailwindcss />, used: [P.site] },
+      { name: "Node.js",      icon: <FaNodeJs />,      used: [P.against, P.documind, P.mafia, P.site] },
+      { name: "HTML / CSS",   icon: <SiHtml5 />, used: [P.qualif, P.against, P.documind, P.site] },
+      { name: "Godot Engine", icon: <SiGodotengine />,   used: [P.codequest] },
     ],
   },
   {
-    title: "Tools & Dev",
+    title: "Databases",
+    color: "emerald",
+    skills: [
+      { name: "MongoDB (Motor)",                      icon: <SiMongodb />, used: [P.qualif] },
+      { name: "Supabase (PostgreSQL, Auth, Realtime)", icon: <SiSupabase />,   used: [P.against] },
+      { name: "Qdrant (vector DB)",                   icon: <TbDatabase />,    used: [P.documind] },
+    ],
+  },
+  {
+    title: "Cloud & DevOps",
     color: "slate",
     skills: [
-      { name: "Git / GitHub",    icon: <FaGithub />,      level: "Daily driver" },
-      { name: "Godot Engine",    icon: <SiGodotengine />, level: "Proficient" },
-      { name: "Salesforce CRM",  icon: <SiSalesforce />,  level: "Familiar" },
+      { name: "Docker",             icon: <SiDocker />,        used: [P.documind] },
+      { name: "Git / GitHub",       icon: <FaGithub />, used: [{ label: "All projects" }] },
+      { name: "GitHub Actions (CI)", icon: <SiGithubactions />, used: [P.qualif, P.against] },
+      { name: "Pytest",             icon: <SiPytest />,        used: [P.qualif, P.against] },
+      { name: "Playwright",         icon: <TbTestPipe />,      used: [P.qualif] },
+      { name: "Sentry",             icon: <SiSentry />,        used: [P.qualif] },
+      { name: "Vercel",             icon: <SiVercel />,        used: [P.qualif, P.against, P.documind, P.site] },
+      { name: "Salesforce CRM",     icon: <SiSalesforce />,    used: [] },
+      { name: "Render",             icon: <SiRender />,        used: [P.qualif, P.documind] },
     ],
   },
 ];
 
-const levelColor = {
-  "Daily driver": "text-blue-400 bg-blue-500/10 border-blue-500/20",
-  "Proficient":   "text-green-400 bg-green-500/10 border-green-500/20",
-  "Familiar":     "text-gray-400 bg-white/5 border-white/10",
-};
+/*
+  HELD OUT (no project proof, removed by Sid's decision or pending):
+    Java (removed: only syntax-level knowledge), NLP (pending; covered by "LLM integration",
+    "RAG" and "Speech-to-Text").
+  Removed on purpose: Microsoft Azure, Google Cloud, spaCy.
+  To restore NLP: { name: "NLP", icon: <TbBrain />, used: [] } in AI / ML.
+*/
 
 const accentBorder = {
-  blue:   "border-blue-500/30 hover:border-blue-500/60",
-  indigo: "border-indigo-500/30 hover:border-indigo-500/60",
-  sky:    "border-sky-500/30 hover:border-sky-500/60",
-  slate:  "border-slate-500/30 hover:border-slate-500/60",
+  blue:    "border-blue-500/30 hover:border-blue-500/60",
+  violet:  "border-violet-500/30 hover:border-violet-500/60",
+  indigo:  "border-indigo-500/30 hover:border-indigo-500/60",
+  sky:     "border-sky-500/30 hover:border-sky-500/60",
+  emerald: "border-emerald-500/30 hover:border-emerald-500/60",
+  slate:   "border-slate-500/30 hover:border-slate-500/60",
 };
 
 const accentTitle = {
-  blue:   "text-blue-400",
-  indigo: "text-indigo-400",
-  sky:    "text-sky-400",
-  slate:  "text-gray-400",
+  blue:    "text-blue-400",
+  violet:  "text-violet-400",
+  indigo:  "text-indigo-400",
+  sky:     "text-sky-400",
+  emerald: "text-emerald-400",
+  slate:   "text-gray-400",
 };
+
+function UsedIn({ items }) {
+  if (!items || items.length === 0) return null;
+  return (
+    <div className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 pl-[1.65rem] text-[10px] leading-tight text-gray-500">
+      <span>Used in</span>
+      {items.map((p, i) => (
+        <span key={p.label}>
+          {p.slug ? (
+            <a
+              href={`#project-${p.slug}`}
+              className="text-blue-300/80 underline-offset-2 hover:text-blue-200 hover:underline focus:outline-none focus-visible:underline"
+            >
+              {p.label}
+            </a>
+          ) : (
+            <span className="text-gray-400">{p.label}</span>
+          )}
+          {i < items.length - 1 && ","}
+        </span>
+      ))}
+    </div>
+  );
+}
 
 export default function Skills() {
   return (
@@ -90,7 +162,7 @@ export default function Skills() {
       className="py-24 px-6 md:px-10 max-w-7xl mx-auto"
     >
       {/* Title */}
-      <div className="relative mb-6 flex flex-col items-center justify-center">
+      <div className="relative mb-14 flex flex-col items-center justify-center">
         <motion.span
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 0.05 }}
@@ -104,23 +176,11 @@ export default function Skills() {
         </h2>
       </div>
 
-      {/* Legend */}
-      <div className="flex items-center justify-center gap-4 mb-14 flex-wrap">
-        {Object.entries(levelColor).map(([label, cls]) => (
-          <span
-            key={label}
-            className={`text-[10px] font-bold px-3 py-1 rounded-full border uppercase tracking-widest ${cls}`}
-          >
-            {label}
-          </span>
-        ))}
-      </div>
-
       {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {categories.map((cat, ci) => (
           <motion.div
-            key={ci}
+            key={cat.title}
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: ci * 0.08 }}
@@ -132,17 +192,15 @@ export default function Skills() {
             </h3>
 
             <div className="space-y-3">
-              {cat.skills.map((skill, si) => (
-                <div key={si} className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2.5 text-gray-300 text-sm font-medium">
-                    <span className="text-base opacity-70">{skill.icon}</span>
-                    {skill.name}
+              {cat.skills.map((skill) => (
+                <div key={skill.name}>
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2.5 text-gray-300 text-sm font-medium">
+                      <span className="text-base opacity-70">{skill.icon}</span>
+                      {skill.name}
+                    </div>
                   </div>
-                  <span
-                    className={`shrink-0 text-[8px] font-black px-2 py-0.5 rounded-full border uppercase tracking-wide ${levelColor[skill.level]}`}
-                  >
-                    {skill.level === "Daily driver" ? "Core" : skill.level}
-                  </span>
+                  <UsedIn items={skill.used} />
                 </div>
               ))}
             </div>

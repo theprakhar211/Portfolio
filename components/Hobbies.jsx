@@ -19,12 +19,6 @@ export default function BeyondTheCode() {
       excerpt: "Now I'm just a Prisoner, bound by the rules...",
       link: "https://docs.google.com/document/d/12JlPHTtjnYeK7hCg_2Re6qXpOYBzSig2BVIRdknutKw/edit?usp=sharing",
       image: "/poems/prisoner.webp"
-    },
-    {
-      title: "The Cruel Mistress",
-      excerpt: "Sweet and sour, like a fruit of Citrus, there once lived a kind, yet cruel mistress...",
-      link: "https://docs.google.com/document/d/1UXUdxfCJb4zgShVNFcOQPj4fATsWiCukKNGw_h-xnTs/edit?usp=sharing",
-      image: "/poems/citrus.webp"
     }
   ];
 
