@@ -11,7 +11,7 @@ const signals = [
   {
     icon: <FaHammer />,
     label: "Currently Building",
-    detail: "CodeQuest: Syntax Scrolls — An interactive code exploration game blending compiler theory with RPG elements. (Launching Soon)",
+    detail: "CodeQuest: Syntax Scrolls — a 2D RPG where you solve puzzles by writing Python. MVP in development.",
   },
   {
     icon: <FaCloud />,
@@ -106,10 +106,12 @@ export default function About() {
               <span className="text-blue-500 italic font-serif font-light">ME</span>
             </h2>
             <p className="text-gray-400 text-lg leading-relaxed">
-              Based in the intersection of{" "}
-              <span className="text-white font-medium">Artificial Intelligence</span> and
-              expressive design. I specialize in building autonomous systems that
-              don&apos;t just solve problems — they create meaningful interactions.
+              I build{" "}
+              <span className="text-white font-medium">LLM applications</span> end to
+              end: FastAPI backends, React and Next.js frontends, and the guardrails,
+              tests and CI that keep them working after the demo. So far that means an
+              AI interview simulator, a debate arena, a document Q&amp;A system and a
+              game that teaches Python.
             </p>
           </div>
 

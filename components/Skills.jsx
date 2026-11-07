@@ -25,7 +25,8 @@ const P = {
 
 // Groups match the Technical Skills lines on the resume.
 // Self-rated levels (Core / Proficient / Familiar) were removed: the "Used in" links are the
-// evidence. A skill with an empty `used` list has no project proof yet.
+// evidence. A skill with an empty `used` list has no project proof yet. `basic: true` marks
+// skills Sid describes as basic-level.
 const categories = [
   {
     title: "Languages",
@@ -70,8 +71,8 @@ const categories = [
       { name: "React",        icon: <FaReact />, used: [P.qualif] },
       { name: "Next.js",      icon: <SiNextdotjs />,   used: [P.against, P.documind, P.mafia, P.site] },
       { name: "Tailwind CSS", icon: <SiTailwindcss />, used: [P.site] },
-      { name: "Node.js",      icon: <FaNodeJs />,      used: [P.against, P.documind, P.mafia, P.site] },
-      { name: "HTML / CSS",   icon: <SiHtml5 />, used: [P.qualif, P.against, P.documind, P.site] },
+      { name: "Node.js",      icon: <FaNodeJs />,      basic: true, used: [P.against, P.documind, P.mafia, P.site] },
+      { name: "HTML / CSS",   icon: <SiHtml5 />, basic: true, used: [P.qualif, P.against, P.documind, P.site] },
       { name: "Godot Engine", icon: <SiGodotengine />,   used: [P.codequest] },
     ],
   },
@@ -95,7 +96,7 @@ const categories = [
       { name: "Playwright",         icon: <TbTestPipe />,      used: [P.qualif] },
       { name: "Sentry",             icon: <SiSentry />,        used: [P.qualif] },
       { name: "Vercel",             icon: <SiVercel />,        used: [P.qualif, P.against, P.documind, P.site] },
-      { name: "Salesforce CRM",     icon: <SiSalesforce />,    used: [] },
+      { name: "Salesforce CRM",     icon: <SiSalesforce />,    basic: true, used: [] },
       { name: "Render",             icon: <SiRender />,        used: [P.qualif, P.documind] },
     ],
   },
@@ -199,6 +200,11 @@ export default function Skills() {
                       <span className="text-base opacity-70">{skill.icon}</span>
                       {skill.name}
                     </div>
+                    {skill.basic && (
+                      <span className="shrink-0 text-[8px] font-black px-2 py-0.5 rounded-full border uppercase tracking-wide text-gray-400 bg-white/5 border-white/10">
+                        Basic
+                      </span>
+                    )}
                   </div>
                   <UsedIn items={skill.used} />
                 </div>

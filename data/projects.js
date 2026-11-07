@@ -8,7 +8,7 @@ export const projects = [
     tagline: "AI Interview Simulator",
     // TODO: add an evaluation-speed claim only after post-deploy timing has been measured (not measured yet).
     description:
-      "Voice-first mock interview platform with two modes — Quick Practice and a structured 4-phase Complete Interview using your actual resume. Answers are evaluated by a blended scoring system: an LLM judgement (Groq-hosted gpt-oss-120b for the smart model, gpt-oss-20b for the fast one) combined with deterministic checks for keyword coverage, answer structure, and depth, weighted per interview phase. Tracks skill mastery across 42 skills in 7 categories, benchmarks your answers against AI-generated ideal responses, and avoids repeat questions by remembering your last 200 via a hash fingerprint. Backed by 277 backend tests and 4 Playwright end-to-end specs, run in GitHub Actions.",
+      "Voice-first mock interview platform with two modes — Quick Practice and a structured 4-phase Complete Interview using your actual resume. Answers are evaluated by a blended scoring system: an LLM judgement (Groq-hosted gpt-oss-120b for the smart model, gpt-oss-20b for the fast one) combined with deterministic checks for keyword coverage, answer structure, and depth, weighted per interview phase. Tracks skill mastery across 42 skills in 7 categories, benchmarks your answers against AI-generated ideal responses, and avoids repeat questions by remembering your last 200 via a hash fingerprint. Backed by 281 backend tests and 4 Playwright end-to-end specs, run in GitHub Actions.",
     tech: ["FastAPI", "React", "MongoDB", "Groq / gpt-oss", "JWT", "GitHub Actions", "Playwright", "Sentry"],
     github: "https://github.com/theprakhar211/qualif-ai",
     demo: "https://qualif-smart-ai.vercel.app/",
@@ -19,10 +19,10 @@ export const projects = [
       "Answer benchmarking against AI-generated ideal answers",
       "Question deduplication: an 8-character SHA-256 fingerprint, remembering your last 200 questions",
       "5-layer prompt-injection defence: regex sanitiser, delimited input, prompt rule, score floor, LLM classifier",
-      "277 backend tests plus 4 Playwright end-to-end specs (69% coverage on application code), run in GitHub Actions",
+      "281 backend tests plus 4 Playwright end-to-end specs (71% coverage on application code), run in GitHub Actions",
     ],
     metrics: [
-      { value: "277", label: "tests" },
+      { value: "281", label: "tests" },
       { value: "5", label: "defence layers" },
       { value: "42", label: "skills tracked" },
     ],
