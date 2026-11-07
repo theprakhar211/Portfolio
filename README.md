@@ -1,6 +1,6 @@
 # 🌌 PRAKHAR. | AI-Driven Creative Portfolio
 
-A high-performance, minimalist portfolio built with **Next.js 14**, **Tailwind CSS**, and **Framer Motion**. This site features a "Glass Floor" aesthetic, responsive navigation, and smooth motion transitions designed to showcase the bridge between Computer Science and AI.
+A high-performance, minimalist portfolio built with **Next.js 16**, **Tailwind CSS**, and **Framer Motion**. This site features a "Glass Floor" aesthetic, responsive navigation, and smooth motion transitions designed to showcase the bridge between Computer Science and AI.
 
 
 
