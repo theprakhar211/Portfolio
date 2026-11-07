@@ -107,11 +107,15 @@ export default function About() {
             </h2>
             <p className="text-gray-400 text-lg leading-relaxed">
               I build{" "}
-              <span className="text-white font-medium">LLM applications</span> end to
-              end: FastAPI backends, React and Next.js frontends, and the guardrails,
-              tests and CI that keep them working after the demo. So far that means an
-              AI interview simulator, a debate arena, a document Q&amp;A system and a
-              game that teaches Python.
+              <span className="text-white font-medium">
+                interactive learning and practice tools
+              </span>{" "}
+              powered by LLMs: programs that talk back, score your work and show
+              you where to improve. An AI interview simulator, a debate arena that
+              judges your arguments, and a 2D RPG where you learn Python by writing
+              it, plus a document Q&amp;A system that answers from your PDFs with
+              citations. Behind them: FastAPI backends, React and Next.js
+              frontends, and the guardrails, tests and CI that keep them reliable.
             </p>
           </div>
 
